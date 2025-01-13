@@ -1,6 +1,0 @@
----
-users:
-  - name: string
-    uid: number
-    password: hashed string
-    groups: string
