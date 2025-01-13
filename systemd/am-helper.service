@@ -5,7 +5,6 @@ After=network.target
 
 [Service]
 Type=simple
-User=am-helper
 WorkingDirectory=/opt/a-marsh/am-helper
 ExecStart=/bin/bash am-helper.sh
 Restart=on-failure
