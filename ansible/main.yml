@@ -1,0 +1,19 @@
+---
+- hosts: localhost
+  roles:
+    - role: system
+      tags: system
+    - role: common-apps
+      tags: common-apps
+    - role: ops
+      tags: ops
+
+    - role: uptime-kuma
+      tags: uptime-kuma
+      when: kuma_cloudflared_token is defined
+    - role: haproxy
+      tags: haproxy
+      when: haproxy_running is defined
+    - role: minecraft
+      tags: minecraft
+      when: mc_version is defined

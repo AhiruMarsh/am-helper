@@ -1,0 +1,5 @@
+---
+- import_tasks: cloudflared.yml
+- import_tasks: cockpit.yml
+- import_tasks: docker.yml
+- import_tasks: am-helper.yml

@@ -1,0 +1,22 @@
+# cockpit Settings
+---
+- name: cockpit - Install cockpit
+  apt:
+    name: cockpit
+    state: present
+
+- name: cockpit - Set customized config
+  template:
+    src: "cockpit/cockpit.conf.j2"
+    dest: "/etc/cockpit/cockpit.conf"
+    owner: "root"
+    group: "root"
+    mode: "0644"
+  register: set_config
+
+- name: cockpit - Set systemd service
+  systemd:
+    name: "cockpit.socket"
+    state: started
+    enabled: true
+  when: set_config.changed

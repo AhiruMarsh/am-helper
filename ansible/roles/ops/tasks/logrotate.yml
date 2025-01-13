@@ -1,0 +1,22 @@
+# Linux logrotate oprations
+---
+- name: logrotate - Install logrotate
+  apt:
+    name: logrotate
+    state: present
+
+- name: logrotate_ops - Set config
+  template:
+    src: "logrotate/logrotate.conf"
+    dest: "/etc/logrotate.conf"
+    owner: "root"
+    group: "root"
+    mode: "0644"
+    validate: logrotate -d %s
+  register: set_config
+
+- name: logrotate_ops - Restart systemd if changed
+  systemd:
+    name: logrotate
+    state: restarted
+  when: set_config.changed

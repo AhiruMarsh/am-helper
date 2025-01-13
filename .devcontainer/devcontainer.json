@@ -1,0 +1,10 @@
+{
+    "name": "am-helper-dev",
+    "dockerFile": "Dockerfile",
+    "postCreateCommand": "./.devcontainer/postCreateCommand.sh",
+    "privileged": true,
+    "overrideCommand": false,
+    "runArgs": [
+        "--entrypoint=/sbin/init"
+    ]
+}

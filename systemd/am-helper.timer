@@ -1,0 +1,10 @@
+[Unit]
+Description=am-helper
+Documentation=https://github.com/AhiruMarsh/am-helper
+
+[Timer]
+OnUnitActiveSec=1min
+Unit=am-helper.service
+
+[Install]
+WantedBy=timers.target

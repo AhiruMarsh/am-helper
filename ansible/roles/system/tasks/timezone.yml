@@ -1,0 +1,15 @@
+# Linux timezone Settings
+
+# vars example
+# vars:
+#   timezone: string
+---
+- name: timezone - Check timezone
+  shell: timedatectl status | grep Asia/Tokyo
+  register: current_timezone
+  changed_when: current_timezone.rc == 1
+  failed_when: current_timezone.rc not in [0,1]
+
+- name: timezone - Change timezone if changed
+  shell: timedatectl set-timezone Asia/Tokyo
+  when: current_timezone.rc == 1

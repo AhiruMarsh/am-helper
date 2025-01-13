@@ -1,0 +1,10 @@
+services:
+  app:
+    image: louislam/uptime-kuma:latest
+    environment:
+      TZ: "Asia/Tokyo"
+      # .envファイルにArgo tunnelのトークンをTOKEN変数で登録
+      UPTIME_KUMA_CLOUDFLARED_TOKEN: "{{ kuma_cloudflared_token }}"
+    volumes:
+      - ./data:/app/data
+    restart: always

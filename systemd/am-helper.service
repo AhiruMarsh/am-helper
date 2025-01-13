@@ -1,0 +1,14 @@
+[Unit]
+Description=am-helper
+Documentation=https://github.com/AhiruMarsh/am-helper
+After=network.target
+
+[Service]
+Type=simple
+User=am-helper
+WorkingDirectory=/opt/a-marsh/am-helper
+ExecStart=/bin/bash am-helper.sh
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

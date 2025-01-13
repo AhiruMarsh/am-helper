@@ -1,0 +1,22 @@
+# Required
+hostname: string
+users:
+  - name: string
+    uid: number
+    password: hashed string
+    groups: string
+cloudflared_token: string
+
+# Optional
+kuma_cloudflared_token: string
+
+haproxy_running: bool
+
+mc_version: string
+mc_hardcore_enabled: bool
+mc_plugins_list: list<number>
+mc_join_fqdn: string
+mc_dynmap_fqdn: string
+mc_discordsrv_bot_token: string
+mc_discordsrv_channel_broadcast_id: string
+mc_discordsrv_channel_console_id: string

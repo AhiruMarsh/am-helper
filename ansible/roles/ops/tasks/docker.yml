@@ -1,0 +1,7 @@
+# docker oprations
+---
+- name: docker_ops - Remove unused images
+  shell: docker image prune -f
+  register: docker_ops_prune
+  changed_when: false
+  failed_when: docker_ops_prune.rc != 0

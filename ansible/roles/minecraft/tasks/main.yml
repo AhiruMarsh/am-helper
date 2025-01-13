@@ -1,0 +1,59 @@
+# app Settings (minecraft)
+
+# vars example
+# vars:
+#    mc_version: string
+#    mc_hardcore_enabled: bool
+#    mc_plugins_list: list<number>
+#    mc_join_fqdn: string
+#    mc_dynmap_fqdn: string
+#    mc_discordsrv_bot_token: string
+#    mc_discordsrv_channel_broadcast_id: string
+#    mc_discordsrv_channel_console_id: string
+---
+- name: minecraft - Create directory
+  file:
+    path: "/opt/a-marsh/minecraft"
+    state: directory
+    owner: "am-helper"
+    group: "am-helper"
+    mode: "0755"
+
+- name: minecraft - Create config directory
+  file:
+    path: "/opt/a-marsh/minecraft/{{ item.path }}"
+    state: directory
+    owner: "am-helper"
+    group: "am-helper"
+    mode: "0755"
+  with_filetree: "templates/"
+  when: item.state == "directory"
+
+- name: minecraft - Create config
+  template:
+    src: "{{ item.src }}"
+    dest: "/opt/a-marsh/minecraft/{{ item.path | regex_replace('\\.j2$', '') }}"
+    owner: "am-helper"
+    group: "am-helper"
+    mode: "0644"
+  register: set_game_config
+  with_filetree: "templates/"
+  when: item.state == "file"
+
+- name: minecraft - Create systemd service
+  template:
+    src: "minecraft.service"
+    dest: "/etc/systemd/system/minecraft.service"
+    owner: "am-helper"
+    group: "am-helper"
+    mode: "0644"
+  register: set_systemd_config
+
+- name: minecraft - Restart systemd service if changed
+  systemd:
+    name: "minecraft.service"
+    daemon-reload: true
+    state: restarted
+    enabled: true
+  ignore_errors: true
+  when: set_game_config.changed or set_systemd_config.changed

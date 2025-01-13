@@ -1,0 +1,16 @@
+# apt settings
+---
+- name: apt - Set customized config
+  template:
+    src: "apt/apt.conf"
+    dest: "/etc/apt/apt.conf"
+    owner: "root"
+    group: "root"
+    mode: "0644"
+  register: set_config
+
+- name: apt - Reload systemd service if changed
+  systemd:
+    name: "unattended-upgrades.service"
+    state: "reloaded"
+  when: set_config.changed

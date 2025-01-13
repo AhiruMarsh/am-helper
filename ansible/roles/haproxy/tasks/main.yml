@@ -1,0 +1,32 @@
+# app Settings (haproxy)
+---
+- name: haproxy - Create directory
+  file:
+    path: "/opt/a-marsh/haproxy"
+    state: directory
+    owner: "am-helper"
+    group: "am-helper"
+    mode: "0755"
+
+- name: haproxy - Install haproxy
+  apt:
+    name: haproxy
+    state: present
+
+- name: haproxy - Set config
+  template:
+    src: "haproxy.cfg"
+    dest: "/etc/haproxy/haproxy.cfg"
+    owner: "root"
+    group: "root"
+    mode: "0644"
+    validate: haproxy -c -f %s
+  register: set_config
+
+- name: haproxy - Restart systemd service if changed
+  systemd:
+    name: "haproxy.service"
+    state: restarted
+    enabled: true
+  ignore_errors: true
+  when: set_config.changed

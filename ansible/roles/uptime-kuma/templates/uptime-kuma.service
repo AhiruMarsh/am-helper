@@ -1,0 +1,15 @@
+[Unit]
+Description=Uptime-Kuma - A free and open source uptime monitoring solution
+Documentation=https://github.com/louislam/uptime-kuma
+After=network.target
+
+[Service]
+Type=simple
+User=am-helper
+WorkingDirectory=/opt/a-marsh/kuma
+ExecStart=/usr/local/bin/docker compose pull && /usr/local/bin/docker compose up -d
+ExecStop=/usr/local/bin/docker compose down
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

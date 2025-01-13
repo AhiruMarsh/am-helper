@@ -1,0 +1,3 @@
+---
+- import_tasks: logrotate.yml
+- import_tasks: docker.yml

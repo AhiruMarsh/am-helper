@@ -1,0 +1,73 @@
+services:
+  app:
+    image: itzg/minecraft-server:latest
+    ports:
+      - 25565:25565
+    environment:
+      # REQ
+      VERSION: "{{ mc_version }}"
+      # GENERAL
+      TYPE: "PAPER"
+      BUILD_FROM_SOURCE: "TRUE"
+      ONLINE_MODE: "TRUE"
+      EULA: "TRUE"
+      DEBUG: "FALSE"
+      ENABLE_RCON: "TRUE"
+      COPY_CONFIG_DEST: "/data"
+      # SERVER
+      LEVEL: "world"
+      UUID: "&6&lWorking! &r- {{ mc_join_fqdn }}"
+      MEMORY: "2G"
+      OPS: "junya1090"
+      DIFFICULTY: "normal"
+      HARDCORE: "{{ mc_hardcore_enabled }}"
+      PLUGINS: "{{ mc_plugins_list }}"
+      SPIGET_RESOURCES: "18494,36618,67436,67788,82293"
+    volumes:
+      - ./data:/data
+      - ./config:/config:ro
+      - /etc/timezone:/etc/timezone:ro
+    tty: TRUE
+    stdin_open: TRUE
+    restart: always
+
+  backup:
+    image: itzg/mc-backup:latest
+    network_mode: "service:app"
+    environment:
+      # REQ
+      TZ: "Asia/Tokyo"
+      RCON_HOST: "app"
+      # CONFIG
+      INITIAL_DELAY: "2h"
+      BACKUP_INTERVAL: "2h"
+      PRUNE_BACKUPS_DAYS: "2"
+      PAUSE_IF_NO_PLAYERS: "true"
+    volumes:
+      - ./data:/data:ro
+      - ./backups:/backups
+    depends_on:
+      - app
+
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+    command: tunnel --credentials-file /run/secrets/cloudflared_token run cloudflared
+    secrets:
+      - cloudflared_token
+    depends_on:
+      - app
+    restart: always
+
+  db:
+    image: mariadb
+    environment:
+      MYSQL_ROOT_PASSWORD: "ahirumarsh"
+      MYSQL_USER: "mc"
+      MYSQL_PASSWORD: "a-marsh.net"
+    volumes:
+      - ./data/db:/var/lib/mysql
+      - ./env/sql/my.cnf:/etc/mysql/conf.d/my.cnf:ro
+      - ./env/sql/init:/docker-entrypoint-initdb.d/
+    restart: always

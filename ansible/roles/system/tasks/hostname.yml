@@ -1,0 +1,10 @@
+# Linux hostname Settings
+
+# vars example
+# vars:
+#   hostname: string
+---
+- name: hostname - Set hostname
+  hostname:
+    name: "{{ hostname }}"
+  ignore_errors: true

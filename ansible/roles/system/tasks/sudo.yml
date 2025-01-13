@@ -1,0 +1,22 @@
+# Linux sudo Settings
+---
+- name: sudo - Install sudo
+  apt:
+    name: sudo
+    state: present
+
+- name: sudo - Create directory
+  file:
+    path: "/etc/sudoers.d"
+    state: directory
+    owner: "root"
+    group: "root"
+    mode: "0755"
+
+- name: sudo - Set customized config
+  template:
+    src: "sudoers.d/generated-ansible"
+    dest: "/etc/sudoers.d/generated-ansible"
+    owner: "root"
+    group: "root"
+    mode: "0440"

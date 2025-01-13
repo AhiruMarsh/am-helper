@@ -1,0 +1,29 @@
+# Linux user Settings
+
+# vars example
+# vars:
+#   users:
+#     - name:     string
+#       comment:  string
+#       uid:      int
+#       password: hashed
+#       groups:   string
+---
+- name: users - Create oprational user
+  user:
+    name: "am-helper"
+    comment: "am-helper"
+    uid: "2200"
+    password: "*"
+    groups: "sudo"
+    shell: "/bin/bash"
+
+- name: users - Create optional user
+  user:
+    name: "{{ item.name }}"
+    comment: "{{ item.name }}"
+    uid: "{{ item.uid }}"
+    password: "{{ item.password }}"
+    groups: "{{ item.groups }}"
+    shell: "/bin/bash"
+  with_items: "{{ users }}"

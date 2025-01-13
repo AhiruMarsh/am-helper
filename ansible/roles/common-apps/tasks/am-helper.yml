@@ -1,0 +1,46 @@
+# am-helper settings
+---
+- name: am-helper - Install git
+  apt:
+    name: git
+    state: present
+
+- name: am-helper - Create directory
+  file:
+    path: "/opt/a-marsh"
+    state: directory
+    owner: "am-helper"
+    group: "am-helper"
+    mode: "0755"
+
+- name: am-helper - Clone am-helper
+  git:
+    repo: "https://github.com/AhiruMarsh/am-helper"
+    dest: "/opt/a-marsh/am-helper"
+  become: true
+  become_user: "am-helper"
+  ignore_errors: true
+  register: clone_git
+
+- name: am-helper - Set systemd service
+  copy:
+    src: "/opt/a-marsh/am-helper/systemd/{{ item }}"
+    dest: "/etc/systemd/system/{{ item }}"
+    owner: "root"
+    group: "root"
+    mode: "0644"
+  register: set_config
+  with_items:
+    - "am-helper.service"
+    - "am-helper.timer"
+  when: clone_git.changed
+
+- name: am-helper - Reload systemd service if changed
+  systemd:
+    name: "{{ item }}"
+    daemon-reload: true
+    enabled: true
+  with_items:
+    - "am-helper.service"
+    - "am-helper.timer"
+  when: clone_git.changed
