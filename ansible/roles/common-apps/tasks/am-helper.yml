@@ -18,7 +18,7 @@
     repo: "https://github.com/AhiruMarsh/am-helper"
     dest: "/opt/a-marsh/am-helper"
   become: true
-  become_user: "am-helper"
+  become_user: "root"
   ignore_errors: true
   register: clone_git
 
@@ -26,8 +26,8 @@
   copy:
     src: "{{ playbook_dir }}/host_vars/localhost"
     dest: "/opt/a-marsh/am-helper/host_vars"
-    owner: "am-helper"
-    group: "am-helper"
+    owner: "root"
+    group: "root"
     mode: "0644"
   when: clone_git.changed
 
