@@ -22,6 +22,15 @@
   ignore_errors: true
   register: clone_git
 
+- name: am-helper - Copy config
+  copy:
+    src: "{{ playbook_dir }}/host_vars/localhost"
+    dest: "/opt/a-marsh/am-helper/host_vars/localhost"
+    owner: "am-helper"
+    group: "am-helper"
+    mode: "0644"
+  when: clone_git.changed
+
 - name: am-helper - Set systemd service
   copy:
     src: "/opt/a-marsh/am-helper/systemd/{{ item }}"
