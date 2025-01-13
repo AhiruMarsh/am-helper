@@ -42,14 +42,14 @@
   with_items:
     - "am-helper.service"
     - "am-helper.timer"
-  when: clone_git.changed
 
 - name: am-helper - Reload systemd service if changed
   systemd:
     name: "{{ item }}"
     daemon-reload: true
+    state: restarted
     enabled: true
   with_items:
     - "am-helper.service"
     - "am-helper.timer"
-  when: clone_git.changed
+  when: set_config.changed
