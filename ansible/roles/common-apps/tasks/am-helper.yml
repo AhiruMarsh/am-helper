@@ -25,7 +25,7 @@
 - name: am-helper - Copy config
   copy:
     src: "{{ playbook_dir }}/host_vars/localhost"
-    dest: "/opt/a-marsh/am-helper/host_vars/localhost"
+    dest: "/opt/a-marsh/am-helper/host_vars"
     owner: "am-helper"
     group: "am-helper"
     mode: "0644"
