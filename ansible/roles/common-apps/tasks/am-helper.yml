@@ -25,7 +25,7 @@
 - name: am-helper - Copy config
   copy:
     src: "{{ playbook_dir }}/host_vars/localhost"
-    dest: "/opt/a-marsh/am-helper/host_vars"
+    dest: "/opt/a-marsh/am-helper/ansible/host_vars/localhost"
     owner: "root"
     group: "root"
     mode: "0644"
