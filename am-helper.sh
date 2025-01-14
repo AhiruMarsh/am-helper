@@ -12,7 +12,7 @@ function abort() {
 }
 
 # Check changes
-git fetch origin main
+git fetch --quiet origin main
 if git diff --quiet HEAD..origin/main; then
     info "No Updates."
 else
