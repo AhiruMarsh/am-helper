@@ -33,14 +33,10 @@
   failed_when: cloudflared_apt_add_repo.rc != 0
   when: ansible_distribution == "Ubuntu"
 
-- name: cloudflared - Update packages cache
-  apt:
-    update_cache: true
-    state: present
-
 - name: cloudflared - Install cloudflared
   apt:
     name: cloudflared
+    update_cache: true
     state: present
 
 - name: cloudflared - Set systemd service

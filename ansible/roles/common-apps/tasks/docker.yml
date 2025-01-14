@@ -37,11 +37,6 @@
   failed_when: docker_apt_add_repo.rc != 0
   when: ansible_distribution == "Ubuntu"
 
-- name: docker - Update packages cache
-  apt:
-    update_cache: true
-    state: present
-
 - name: docker - Install docker
   apt:
     name:
@@ -50,6 +45,7 @@
       - containerd.io
       - docker-buildx-plugin
       - docker-compose-plugin
+    update_cache: true
     state: present
   register: install_docker
 

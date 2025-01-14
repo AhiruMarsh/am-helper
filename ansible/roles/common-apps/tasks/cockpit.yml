@@ -2,7 +2,9 @@
 ---
 - name: cockpit - Install cockpit
   apt:
-    name: cockpit
+    name:
+      - cockpit
+      - cockpit-pcp
     state: present
 
 - name: cockpit - Set customized config
