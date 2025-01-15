@@ -3,3 +3,4 @@
 - import_tasks: cockpit.yml
 - import_tasks: docker.yml
 - import_tasks: am-helper.yml
+- import_tasks: prom-node-exporter.yml

@@ -1,0 +1,30 @@
+volumes:
+  grafana_data:
+  prometheus_data:
+
+services:
+  grafana:
+    image: grafana/grafana:latest
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - /etc/timezone:/etc/timezone:ro
+    depends_on:
+      - prometheus
+
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - prometheus_data:/prometheus
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - /etc/timezone:/etc/timezone:ro
+
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+    command: tunnel run --token "{{ o11y_cloudflared_token }}"
+    secrets:
+      - cloudflared_token
+    depends_on:
+      - app
+    restart: always

@@ -1,0 +1,44 @@
+# app Settings (observability)
+
+# vars example
+# vars:
+#  prom_client_secret_token: string
+#  o11y_cloudflared_token: string
+---
+- name: o11y - Create directory
+  file:
+    path: "/opt/a-marsh/observability"
+    state: directory
+    owner: "am-helper"
+    group: "am-helper"
+    mode: "0755"
+
+- name: o11y - Create docker compose config
+  template:
+    src: "{{ item }}"
+    dest: "/opt/a-marsh/observability/{{ item }}"
+    owner: "am-helper"
+    group: "am-helper"
+    mode: "0644"
+  register: set_docker_config
+  with_items:
+    - "compose.yaml"
+    - "prometheus.yml"
+
+- name: o11y - Create systemd service
+  template:
+    src: "observability.service"
+    dest: "/etc/systemd/system/observability.service"
+    owner: "am-helper"
+    group: "am-helper"
+    mode: "0644"
+  register: set_systemd_config
+
+- name: o11y - Restart systemd service if changed
+  systemd:
+    name: "observability.service"
+    daemon-reload: true
+    state: restarted
+    enabled: true
+  ignore_errors: true
+  when: set_docker_config.changed or set_systemd_config.changed

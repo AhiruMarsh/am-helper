@@ -1,0 +1,15 @@
+[Unit]
+Description=Prometheus Node exporter
+Documentation=https://github.com/prometheus/node_exporter
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/a-marsh/prom-node-exporter
+ExecStartPre=/usr/bin/docker compose pull
+ExecStart=/usr/bin/docker compose up
+ExecStop=/usr/bin/docker compose down
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

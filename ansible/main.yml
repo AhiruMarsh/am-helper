@@ -8,6 +8,9 @@
     - role: ops
       tags: ops
 
+    - role: o11y
+      tags: o11y
+      when: (prom_client_secret_token is defined) and (o11y_cloudflared_token is defined)
     - role: uptime-kuma
       tags: uptime-kuma
       when: kuma_cloudflared_token is defined

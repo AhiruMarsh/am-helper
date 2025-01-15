@@ -27,3 +27,4 @@
     groups: "{{ item.groups }}"
     shell: "/bin/bash"
   with_items: "{{ users }}"
+  when: users is defined

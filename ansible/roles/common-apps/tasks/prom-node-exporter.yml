@@ -1,0 +1,36 @@
+# app Settings (prom-node-exporter)
+---
+- name: prom-node-exporter - Create directory
+  file:
+    path: "/opt/a-marsh/prom-node-exporter"
+    state: directory
+    owner: "am-helper"
+    group: "am-helper"
+    mode: "0755"
+
+- name: prom-node-exporter - Create docker compose config
+  template:
+    src: "prom-node-exporter/compose.yaml"
+    dest: "/opt/a-marsh/prom-node-exporter/compose.yaml"
+    owner: "am-helper"
+    group: "am-helper"
+    mode: "0644"
+  register: set_docker_config
+
+- name: prom-node-exporter - Create systemd service
+  template:
+    src: "prom-node-exporter/prom-node-exporter.service"
+    dest: "/etc/systemd/system/prom-node-exporter.service"
+    owner: "am-helper"
+    group: "am-helper"
+    mode: "0644"
+  register: set_systemd_config
+
+- name: prom-node-exporter - Restart systemd service if changed
+  systemd:
+    name: "prom-node-exporter.service"
+    daemon-reload: true
+    state: restarted
+    enabled: true
+  ignore_errors: true
+  when: set_docker_config.changed or set_systemd_config.changed

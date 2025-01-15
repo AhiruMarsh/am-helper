@@ -1,13 +1,17 @@
 # Required
 hostname: string
+
+# Optional
 users:
   - name: string
     uid: number
     password: hashed string
     groups: string
+
 cloudflared_token: string
 
-# Optional
+o11y_running: bool
+
 kuma_cloudflared_token: string
 
 haproxy_running: bool

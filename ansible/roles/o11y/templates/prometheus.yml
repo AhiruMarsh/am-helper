@@ -1,0 +1,22 @@
+global:
+  scrape_interval: 5s
+
+scrape_configs:
+  - job_name: "server"
+    http_headers:
+      CF-Access-Client-Id:
+        values:
+          - "2ddf7e0a6e587a478cdee55454d6b4aa.access"
+      CF-Access-Client-Secret:
+        secrets:
+          - "{{ prom_client_secret_token }}"
+    static_configs:
+      - targets: ["prom-oci-obs-sv01.a-marsh.net"]
+        labels:
+          server_name: "oci-obs-sv01"
+      - targets: ["prom-oci-rpx-sv01.a-marsh.net"]
+        labels:
+          server_name: "oci-rpx-sv01"
+      - targets: ["prom-kagoya-front-vps01.a-marsh.net"]
+        labels:
+          server_name: "kagoya-front-vps01"
