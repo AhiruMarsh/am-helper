@@ -54,8 +54,6 @@ services:
     volumes:
       - /etc/timezone:/etc/timezone:ro
     command: tunnel run --token {{ mc_cloudflared_token }}
-    secrets:
-      - cloudflared_token
     depends_on:
       - app
     restart: always
