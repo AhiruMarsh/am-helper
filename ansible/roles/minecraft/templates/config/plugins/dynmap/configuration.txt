@@ -29,11 +29,11 @@ storage:
   #dbfile: dynmap.db
   # MySQL DB for map storage (at 'hostname':'port' with flags "flags" in database 'database' using user 'userid' password 'password' and table prefix 'prefix')
   type: mysql
-  hostname: '${CFG_DB_HOSTNAME}'
+  hostname: 'db'
   port: 3306
-  database: '${CFG_DYNMAP_DATABESE}'
-  userid: '${CFG_DB_USER}'
-  password: '${CFG_DB_PASSWORD}'
+  database: 'local_dynmap'
+  userid: 'mc'
+  password: 'a-marsh.net'
   prefix: ""
   flags: "?autoReconnect=true"
   

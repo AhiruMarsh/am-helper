@@ -24,3 +24,4 @@ mc_dynmap_fqdn: string
 mc_discordsrv_bot_token: string
 mc_discordsrv_channel_broadcast_id: string
 mc_discordsrv_channel_console_id: string
+mc_cloudflared_token: string

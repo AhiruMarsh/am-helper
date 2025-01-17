@@ -53,7 +53,7 @@ services:
     image: cloudflare/cloudflared:latest
     volumes:
       - /etc/timezone:/etc/timezone:ro
-    command: tunnel --credentials-file /run/secrets/cloudflared_token run cloudflared
+    command: tunnel run --token {{ mc_cloudflared_token }}
     secrets:
       - cloudflared_token
     depends_on:
