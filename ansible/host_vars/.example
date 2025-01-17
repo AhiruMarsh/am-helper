@@ -17,11 +17,13 @@ kuma_cloudflared_token: string
 haproxy_running: bool
 
 mc_version: string
+mc_type: string
 mc_hardcore_enabled: bool
-mc_plugins_list: list<number>
+mc_plugins_list: list<string>
+mc_mods_list: list<string>
 mc_join_fqdn: string
 mc_dynmap_fqdn: string
-mc_discordsrv_bot_token: string
+mc_discordsrv_bot_token_id: string
 mc_discordsrv_channel_broadcast_id: string
 mc_discordsrv_channel_console_id: string
 mc_cloudflared_token: string
