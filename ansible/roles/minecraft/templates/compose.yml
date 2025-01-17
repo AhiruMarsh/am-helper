@@ -67,6 +67,6 @@ services:
       MYSQL_PASSWORD: "a-marsh.net"
     volumes:
       - ./data/db:/var/lib/mysql
-      - ./env/sql/my.cnf:/etc/mysql/conf.d/my.cnf:ro
-      - ./env/sql/init:/docker-entrypoint-initdb.d/
+      - ./sql/my.cnf:/etc/mysql/conf.d/my.cnf:ro
+      - ./sql/init:/docker-entrypoint-initdb.d/
     restart: always
