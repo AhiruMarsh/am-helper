@@ -26,7 +26,7 @@
 - name: haproxy - Restart systemd service if changed
   systemd:
     name: "haproxy.service"
-    state: restarted
+    state: reloaded
     enabled: true
   ignore_errors: true
   when: set_config.changed
