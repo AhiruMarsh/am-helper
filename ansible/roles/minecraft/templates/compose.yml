@@ -14,10 +14,11 @@ services:
       EULA: "TRUE"
       DEBUG: "FALSE"
       ENABLE_RCON: "TRUE"
+      ENABLE_ROLLING_LOGS: "TRUE"
       COPY_CONFIG_DEST: "/data"
       # SERVER
       LEVEL: "world"
-      UUID: "&6&lWorking! &r- {{ mc_join_fqdn }}"
+      MOTD: "&6&lWorking! &r- {{ mc_join_fqdn }}"
       MEMORY: "2G"
       OPS: "junya1090"
       DIFFICULTY: "normal"

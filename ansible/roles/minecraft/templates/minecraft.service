@@ -8,7 +8,9 @@ WorkingDirectory=/opt/a-marsh/minecraft
 ExecStartPre=/usr/bin/docker compose pull
 ExecStart=/usr/bin/docker compose up
 ExecStop=/usr/bin/docker compose down
-Restart=on-failure
+
+RuntimeMaxSec=86400
+Restart=always
 
 [Install]
 WantedBy=multi-user.target
