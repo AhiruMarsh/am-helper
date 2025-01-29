@@ -19,7 +19,7 @@ services:
       ICON: "https://status.a-marsh.net/upload/logo3.png"
       # SERVER
       LEVEL: "world"
-      MOTD: "&6&lWorking! &r- {{ mc_join_fqdn }}"
+      MOTD: "\u00A76\u00A7lWorking! \u00A77- {{ mc_join_fqdn }}"
       MEMORY: "2G"
       OPS: "junya1090"
       DIFFICULTY: "normal"
