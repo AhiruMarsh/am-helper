@@ -1,3 +1,4 @@
 {
-  "editor.formatOnSave": true
+  "editor.formatOnSave": true,
+  "ansible.python.interpreterPath": "c:\\Users\\Junya\\AppData\\Local\\Microsoft\\WindowsApps\\python3.11.exe"
 }

@@ -28,8 +28,8 @@ services:
       MODS: "{{ mc_mods_list }}"
       SPIGET_RESOURCES: "18494,67436,82293"
     volumes:
-      - ./data:/data
-      - ./config:/config:ro
+      - ./data/app:/data
+      - ./etc/app:/config:ro
       - /etc/timezone:/etc/timezone:ro
     tty: TRUE
     stdin_open: TRUE
@@ -48,7 +48,7 @@ services:
       PRUNE_BACKUPS_DAYS: "2"
       PAUSE_IF_NO_PLAYERS: "true"
     volumes:
-      - ./data:/data:ro
+      - ./data/app:/data:ro
       - ./backups:/backups
     depends_on:
       - app
@@ -70,6 +70,6 @@ services:
       MYSQL_PASSWORD: "a-marsh.net"
     volumes:
       - ./data/db:/var/lib/mysql
-      - ./sql/my.cnf:/etc/mysql/conf.d/my.cnf:ro
-      - ./sql/init:/docker-entrypoint-initdb.d/
+      - ./etc/db/my.cnf:/etc/mysql/conf.d/my.cnf:ro
+      - ./etc/db/init:/docker-entrypoint-initdb.d/
     restart: always
