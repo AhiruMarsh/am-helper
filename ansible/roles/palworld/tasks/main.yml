@@ -16,7 +16,7 @@
 
 - name: palworld - Create config
   template:
-    src: "compose.yaml"
+    src: "compose.yml"
     dest: "/opt/a-marsh/palworld/compose.yml"
     owner: "am-helper"
     group: "am-helper"
