@@ -6,7 +6,7 @@ services:
     ports:
       - 8211:8211/udp
       - 27015:27015/udp
-      # - 8212:8212/tcp  # Port for REST API if REST_API_ENABLED: true
+      - 8212:8212/tcp # Port for REST API if REST_API_ENABLED: true
     environment:
       TZ: "Asia/Tokyo"
       PUID: 1000
@@ -19,6 +19,7 @@ services:
       RCON_PORT: 25575
       ADMIN_PASSWORD: "{{ pal_admin_password }}"
       COMMUNITY: false # Enable this if you want your server to show up in the community servers tab, USE WITH SERVER_PASSWORD!
+      REST_API_ENABLED: true
       SERVER_NAME: "{{ pal_join_fqdn }}"
       SERVER_DESCRIPTION: "Working!"
       ALLOW_CONNECT_PLATFORM: "Steam" # Defaults to "Steam" if not set, set this to "Xbox" if you want to host a server for Xbox players. CROSSPLAY BETWEEN XBOX-STEAM IS NOT YET SUPPORTED
