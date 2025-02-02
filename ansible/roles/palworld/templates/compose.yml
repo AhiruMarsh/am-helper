@@ -1,0 +1,26 @@
+services:
+  app:
+    image: thijsvanloef/palworld-server-docker:latest
+    restart: unless-stopped
+    stop_grace_period: 30s # Set to however long you are willing to wait for the container to gracefully stop
+    ports:
+      - 8211:8211/udp
+      - 27015:27015/udp
+      # - 8212:8212/tcp  # Port for REST API if REST_API_ENABLED: true
+    environment:
+      TZ: "Asia/Tokyo"
+      PUID: 1000
+      PGID: 1000
+      PORT: 8211 # Optional but recommended
+      PLAYERS: 16 # Optional but recommended
+      SERVER_PASSWORD: "{{ pal_server_password }}" # Optional but recommended
+      MULTITHREADING: true
+      RCON_ENABLED: true
+      RCON_PORT: 25575
+      ADMIN_PASSWORD: "{{ pal_admin_password }}"
+      COMMUNITY: false # Enable this if you want your server to show up in the community servers tab, USE WITH SERVER_PASSWORD!
+      SERVER_NAME: "{{ pal_join_fqdn }}"
+      SERVER_DESCRIPTION: "Working!"
+      ALLOW_CONNECT_PLATFORM: "Steam" # Defaults to "Steam" if not set, set this to "Xbox" if you want to host a server for Xbox players. CROSSPLAY BETWEEN XBOX-STEAM IS NOT YET SUPPORTED
+    volumes:
+      - ./data/app:/palworld/

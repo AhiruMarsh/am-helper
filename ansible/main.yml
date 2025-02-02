@@ -20,3 +20,6 @@
     - role: minecraft
       tags: minecraft
       when: mc_version is defined
+    - role: palworld
+      tags: palworld
+      when: pal_join_fqdn is defined

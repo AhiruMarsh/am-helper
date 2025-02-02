@@ -1,0 +1,42 @@
+# app Settings (palworld)
+
+# vars example
+# vars:
+#    pal_join_fqdn: string
+#    pal_server_password: string
+#    pal_admin_password: string
+---
+- name: palworld - Create directory
+  file:
+    path: "/opt/a-marsh/palworld"
+    state: directory
+    owner: "am-helper"
+    group: "am-helper"
+    mode: "0755"
+
+- name: palworld - Create config
+  template:
+    src: "compose.yaml"
+    dest: "/opt/a-marsh/palworld/compose.yaml"
+    owner: "am-helper"
+    group: "am-helper"
+    mode: "0644"
+  register: set_game_config
+
+- name: palworld - Create systemd service
+  template:
+    src: "palworld.service"
+    dest: "/etc/systemd/system/palworld.service"
+    owner: "am-helper"
+    group: "am-helper"
+    mode: "0644"
+  register: set_systemd_config
+
+- name: palworld - Restart systemd service if changed
+  systemd:
+    name: "palworld.service"
+    daemon-reload: true
+    state: restarted
+    enabled: true
+  ignore_errors: true
+  when: set_game_config.changed or set_systemd_config.changed
