@@ -2,9 +2,10 @@
 
 # vars example
 # vars:
-#    pal_join_fqdn: string
+#    pal_join_fqdn: string (optional)
 #    pal_server_password: string
 #    pal_admin_password: string
+#    pal_discord_webhook_url: string (optional)
 ---
 - name: palworld - Create directory
   file:

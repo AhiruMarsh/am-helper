@@ -1,0 +1,4 @@
+# default variables (palworld)
+---
+pal_join_fqdn: "pal.a-marsh.net"
+pal_discord_webhook_url: ""
