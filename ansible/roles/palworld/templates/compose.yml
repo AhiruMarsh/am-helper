@@ -23,13 +23,16 @@ services:
       SERVER_NAME: "{{ pal_join_fqdn }}"
       SERVER_DESCRIPTION: "Working!"
       ALLOW_CONNECT_PLATFORM: "Steam" # Defaults to "Steam" if not set, set this to "Xbox" if you want to host a server for Xbox players. CROSSPLAY BETWEEN XBOX-STEAM IS NOT YET SUPPORTED
+      BASE_CAMP_MAX_NUM_IN_GUILD: 5
+      BASE_CAMP_WORKER_MAX_NUM: 20
       PAL_EGG_DEFAULT_HATCHING_TIME: "1.000000"
+      # Discord Webhook settings
       DISCORD_WEBHOOK_URL: "{{ pal_discord_webhook_url }}"
-      DISCORD_PRE_UPDATE_BOOT_MESSAGE: ":octagonal_sign: **サーバーは停止しました** (アップデート中)"
-      DISCORD_POST_UPDATE_BOOT_MESSAGE: ":white_check_mark: **サーバーが起動しました** (アップデート完了)"
-      DISCORD_PRE_START_MESSAGE: ":white_check_mark: **サーバーが起動しました**"
+      DISCORD_PRE_UPDATE_BOOT_MESSAGE: ":octagonal_sign: サーバーは停止しました (アップデート中)"
+      DISCORD_POST_UPDATE_BOOT_MESSAGE: ":white_check_mark: サーバーが起動しました (アップデート完了)"
+      DISCORD_PRE_START_MESSAGE: ":white_check_mark: サーバーが起動しました"
       DISCORD_PRE_SHUTDOWN_MESSAGE_ENABLED: false
-      DISCORD_POST_SHUTDOWN_MESSAGE: ":octagonal_sign: **サーバーは停止しました**"
+      DISCORD_POST_SHUTDOWN_MESSAGE: ":octagonal_sign: サーバーは停止しました"
       DISCORD_PLAYER_JOIN_MESSAGE: "player_name がサーバーに参加しました"
       DISCORD_PLAYER_LEAVE_MESSAGE: "player_name はサーバーから退出しました"
       DISCORD_PRE_BACKUP_MESSAGE_ENABLED: false
