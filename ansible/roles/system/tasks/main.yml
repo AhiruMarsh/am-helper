@@ -4,3 +4,4 @@
 - import_tasks: sshd.yml
 - import_tasks: sudo.yml
 - import_tasks: users.yml
+- import_tasks: apt.yml

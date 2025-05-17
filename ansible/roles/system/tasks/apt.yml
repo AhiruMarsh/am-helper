@@ -1,16 +1,24 @@
 # apt settings
 ---
-- name: apt - Set customized config
-  template:
-    src: "apt/apt.conf"
-    dest: "/etc/apt/apt.conf"
+- name: Install unattended-upgrades
+  ansible.builtin.apt:
+    name: unattended-upgrades
+    state: present
+  become: true
+
+- name: Set config unattended-upgrades
+  ansible.builtin.template:
+    src: "apt/100-generated-ansible.conf"
+    dest: "/etc/apt/apt.conf.d/100-generated-ansible.conf"
     owner: "root"
     group: "root"
     mode: "0644"
+  become: true
   register: set_config
 
-- name: apt - Reload systemd service if changed
-  systemd:
+- name: Reload service unattended-upgrades
+  ansible.builtin.systemd:
     name: "unattended-upgrades.service"
     state: "reloaded"
+  become: true
   when: set_config.changed
