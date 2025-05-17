@@ -24,9 +24,9 @@ services:
       OPS: "junya1090"
       DIFFICULTY: "normal"
       HARDCORE: "{{ mc_hardcore_enabled }}"
-      PLUGINS: "https://mediafilez.forgecdn.net/files/6090/792/Dynmap-3.7-beta-8-spigot.jar,{{ mc_plugins_list }}"
+      PLUGINS: "{{ mc_plugins_list }}"
       MODS: "{{ mc_mods_list }}"
-      SPIGET_RESOURCES: "18494,67436,82293"
+      SPIGET_RESOURCES: "18494,82293,{{ mc_spiget_resources }}"
     volumes:
       - ./data/app:/data
       - ./etc/app:/config:ro

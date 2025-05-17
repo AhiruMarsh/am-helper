@@ -7,6 +7,7 @@
 #    mc_hardcore_enabled: bool
 #    mc_plugins_list: list<string>
 #    mc_mods_list: list<string>
+#    mc_spiget_resources: list<int>
 #    mc_join_fqdn: string
 #    mc_dynmap_fqdn: string
 #    mc_discordsrv_bot_token_id: string
