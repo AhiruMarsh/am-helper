@@ -19,6 +19,7 @@
 - name: Reload service unattended-upgrades
   ansible.builtin.systemd:
     name: "unattended-upgrades.service"
-    state: "reloaded"
+    enabled: true
+    state: "restarted"
   become: true
   when: set_config.changed
