@@ -1,12 +1,8 @@
-volumes:
-  grafana_data:
-  prometheus_data:
-
 services:
   grafana:
     image: grafana/grafana:latest
     volumes:
-      - grafana_data:/var/lib/grafana
+      - ./data/grafana:/var/lib/grafana
       - /etc/timezone:/etc/timezone:ro
     depends_on:
       - prometheus
@@ -14,7 +10,7 @@ services:
   prometheus:
     image: prom/prometheus:latest
     volumes:
-      - prometheus_data:/prometheus
+      - ./data/prometheus:/prometheus
       - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
       - /etc/timezone:/etc/timezone:ro
 
