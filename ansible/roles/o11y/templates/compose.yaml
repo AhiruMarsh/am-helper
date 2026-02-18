@@ -11,7 +11,7 @@ services:
     image: prom/prometheus:latest
     volumes:
       - ./data/prometheus:/prometheus
-      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./prometheus:/etc/prometheus:ro
       - /etc/timezone:/etc/timezone:ro
 
   cloudflared:

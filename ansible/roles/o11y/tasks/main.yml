@@ -13,17 +13,26 @@
     group: "am-helper"
     mode: "0755"
 
-- name: o11y - Create docker compose config
+- name: o11y - Create config directory
+  file:
+    path: "/opt/a-marsh/observability/{{ item.path }}"
+    state: directory
+    owner: "am-helper"
+    group: "am-helper"
+    mode: "0755"
+  with_filetree: "templates/"
+  when: item.state == "directory"
+
+- name: o11y - Create config
   template:
-    src: "{{ item }}"
-    dest: "/opt/a-marsh/observability/{{ item }}"
+    src: "{{ item.src }}"
+    dest: "/opt/a-marsh/observability/{{ item.path | regex_replace('\\.j2$', '') }}"
     owner: "am-helper"
     group: "am-helper"
     mode: "0644"
   register: set_docker_config
-  with_items:
-    - "compose.yaml"
-    - "prometheus.yml"
+  with_filetree: "templates/"
+  when: item.state == "file"
 
 - name: o11y - Create systemd service
   template:

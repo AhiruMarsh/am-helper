@@ -1,0 +1,15 @@
+global:
+  scrape_interval: 30s
+
+scrape_configs:
+  - job_name: "hosts"
+    http_headers:
+      CF-Access-Client-Id:
+        values:
+          - "47b2c772dac3a4d4ae409ec56f96d993.access"
+      CF-Access-Client-Secret:
+        secrets:
+          - "{{ prom_client_secret_token }}"
+    file_sd_configs:
+      - files:
+        - /etc/prometheus/hosts.yml
