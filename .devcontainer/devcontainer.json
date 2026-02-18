@@ -1,10 +1,23 @@
 {
     "name": "am-helper-dev",
     "dockerFile": "Dockerfile",
-    "postCreateCommand": "./.devcontainer/postCreateCommand.sh",
+    "remoteUser": "vscode",
+    "features": {
+        "ghcr.io/devcontainers/features/common-utils:2": {
+            "username": "vscode"
+        }
+    },
+    "onCreateCommand": "sudo chown -R vscode:vscode /workspaces/${localWorkspaceFolderBasename}",
     "privileged": true,
     "overrideCommand": false,
     "runArgs": [
         "--entrypoint=/sbin/init"
-    ]
+    ],
+    "customizations": {
+        "vscode": {
+            "recommendations": [
+                "redhat.ansible"
+            ]
+        }
+    }
 }
