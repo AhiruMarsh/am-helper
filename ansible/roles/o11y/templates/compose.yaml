@@ -5,16 +5,6 @@ services:
       - ./data/prometheus:/prometheus
       - ./prometheus:/etc/prometheus:ro
       - /etc/timezone:/etc/timezone:ro
-    healthcheck:
-      test:
-        [
-          "CMD",
-          "wget --quiet --tries=1 --spider http://localhost:9090/-/healthy || exit 1",
-        ]
-      interval: 30s
-      timeout: 5s
-      retries: 3
-      start_period: 5s
     restart: always
 
   grafana:
@@ -22,20 +12,9 @@ services:
     volumes:
       - ./data/grafana:/var/lib/grafana
       - /etc/timezone:/etc/timezone:ro
-    healthcheck:
-      test:
-        [
-          "CMD",
-          "curl --silent --fail --output /dev/null --head http://localhost:3000/api/health",
-        ]
-      interval: 30s
-      timeout: 5s
-      retries: 3
-      start_period: 5s
     restart: always
     depends_on:
-      prometheus:
-        condition: service_healthy
+      - prometheus
 
   cloudflared:
     image: cloudflare/cloudflared:latest
@@ -44,7 +23,5 @@ services:
     command: tunnel run --token "{{ o11y_cloudflared_token }}"
     restart: always
     depends_on:
-      prometheus:
-        condition: service_healthy
-      grafana:
-        condition: service_healthy
+      - prometheus
+      - grafana
