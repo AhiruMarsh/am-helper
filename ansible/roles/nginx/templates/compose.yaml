@@ -13,9 +13,10 @@ services:
   exporter:
     image: nginx/nginx-prometheus-exporter:latest
     command:
-      - --nginx.scrape-uri=http://app:8080/stub_status
+      - --nginx.scrape-uri=http://localhost:8080/stub_status
     volumes:
       - /etc/timezone:/etc/timezone:ro
+    network_mode: host
     restart: always
     depends_on:
       - app
