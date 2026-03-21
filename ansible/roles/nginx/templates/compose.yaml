@@ -20,12 +20,3 @@ services:
     restart: always
     depends_on:
       - app
-
-  cloudflared:
-    image: cloudflare/cloudflared:latest
-    volumes:
-      - /etc/timezone:/etc/timezone:ro
-    command: tunnel run --token "{{ nginx_cloudflared_token }}"
-    restart: always
-    depends_on:
-      - exporter
