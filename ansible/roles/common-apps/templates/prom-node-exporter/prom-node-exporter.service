@@ -1,7 +1,8 @@
 [Unit]
 Description=Prometheus Node exporter
 Documentation=https://github.com/prometheus/node_exporter
-After=network.target
+After=network-online.target remote-fs.target
+Wants=network-online.target remote-fs.target
 
 [Service]
 Type=simple
