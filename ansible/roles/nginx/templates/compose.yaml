@@ -4,10 +4,10 @@ services:
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./nginx/minecraft_router.js:/etc/nginx/minecraft_router.js:ro
+      - ./data/log:/var/log/nginx
       - /etc/timezone:/etc/timezone:ro
-    ports:
-      - "25565:25565"
-      - "8211:8211/udp"
+    network_mode: host
+    pid: host
     restart: always
 
   exporter:
