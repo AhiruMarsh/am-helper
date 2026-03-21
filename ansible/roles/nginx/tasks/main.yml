@@ -1,0 +1,48 @@
+# app Settings (nginx)
+---
+- name: nginx - Create directory
+  file:
+    path: "/opt/a-marsh/nginx"
+    state: directory
+    owner: "am-helper"
+    group: "am-helper"
+    mode: "0755"
+
+- name: nginx - Create config directory
+  file:
+    path: "/opt/a-marsh/nginx/{{ item.path }}"
+    state: directory
+    owner: "am-helper"
+    group: "am-helper"
+    mode: "0755"
+  with_filetree: "templates/"
+  when: item.state == "directory"
+
+- name: nginx - Create config
+  template:
+    src: "{{ item.src }}"
+    dest: "/opt/a-marsh/nginx/{{ item.path | regex_replace('\\.j2$', '') }}"
+    owner: "am-helper"
+    group: "am-helper"
+    mode: "0644"
+  register: set_docker_config
+  with_filetree: "templates/"
+  when: item.state == "file"
+
+- name: nginx - Create systemd service
+  template:
+    src: "nginx.service"
+    dest: "/etc/systemd/system/nginx.service"
+    owner: "am-helper"
+    group: "am-helper"
+    mode: "0644"
+  register: set_systemd_config
+
+- name: nginx - Restart systemd service if changed
+  systemd:
+    name: "nginx.service"
+    daemon-reload: true
+    state: restarted
+    enabled: true
+  ignore_errors: true
+  when: set_docker_config.changed or set_systemd_config.changed

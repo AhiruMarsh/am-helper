@@ -14,12 +14,12 @@
     - role: uptime-kuma
       tags: uptime-kuma
       when: kuma_cloudflared_token is defined
-    - role: haproxy
-      tags: haproxy
-      when: haproxy_running is defined
+    - role: nginx
+      tags: nginx
+      when: (nginx_running is defined) and (nginx_cloudflared_token is defined)
     - role: minecraft
       tags: minecraft
       when: mc_version is defined
     - role: palworld
       tags: palworld
-      when: pal_join_fqdn is defined
+      when: (pal_join_fqdn is defined) and (pal_discord_webhook_url is defined) and (pal_server_password is defined) and (pal_admin_password is defined)

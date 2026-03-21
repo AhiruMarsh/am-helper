@@ -14,7 +14,8 @@ o11y_running: bool
 
 kuma_cloudflared_token: string
 
-haproxy_running: bool
+nginx_running: bool
+nginx_cloudflared_token: string
 
 mc_version: string
 mc_type: string
