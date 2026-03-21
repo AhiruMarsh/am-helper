@@ -1,25 +1,56 @@
 services:
-  grafana:
-    image: grafana/grafana:latest
-    volumes:
-      - ./data/grafana:/var/lib/grafana
-      - /etc/timezone:/etc/timezone:ro
-    depends_on:
-      - prometheus
-
   prometheus:
     image: prom/prometheus:latest
     volumes:
       - ./data/prometheus:/prometheus
       - ./prometheus:/etc/prometheus:ro
       - /etc/timezone:/etc/timezone:ro
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "wget --quiet --tries=1 --spider http://localhost:9090/-/healthy || exit 1",
+        ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+    restart: always
+
+  grafana:
+    image: grafana/grafana:latest
+    volumes:
+      - ./data/grafana:/var/lib/grafana
+      - /etc/timezone:/etc/timezone:ro
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "wget --quiet --tries=1 --spider http://localhost:3000/api/health || exit 1",
+        ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+    restart: always
+    depends_on:
+      prometheus:
+        condition: service_healthy
 
   cloudflared:
     image: cloudflare/cloudflared:latest
     volumes:
       - /etc/timezone:/etc/timezone:ro
     command: tunnel run --token "{{ o11y_cloudflared_token }}"
-    depends_on:
-      - grafana
-      - prometheus
+    healthcheck:
+      test: ["CMD", "cloudflared tunnel ready"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
     restart: always
+    depends_on:
+      prometheus:
+        condition: service_healthy
+      grafana:
+        condition: service_healthy
