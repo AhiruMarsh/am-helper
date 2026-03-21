@@ -12,4 +12,16 @@ scrape_configs:
           - "{{ prom_client_secret_token }}"
     file_sd_configs:
       - files:
-        - /etc/prometheus/hosts.yml
+          - /etc/prometheus/hosts.yml
+
+  - job_name: "nginx"
+    http_headers:
+      CF-Access-Client-Id:
+        values:
+          - "47b2c772dac3a4d4ae409ec56f96d993.access"
+      CF-Access-Client-Secret:
+        secrets:
+          - "{{ prom_client_secret_token }}"
+    file_sd_configs:
+      - files:
+          - /etc/prometheus/nginx.yml
