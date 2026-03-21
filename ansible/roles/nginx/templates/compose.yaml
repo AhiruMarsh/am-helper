@@ -18,7 +18,7 @@ services:
       - /etc/timezone:/etc/timezone:ro
     restart: always
     depends_on:
-      - nginx
+      - app
 
   cloudflared:
     image: cloudflare/cloudflared:latest
