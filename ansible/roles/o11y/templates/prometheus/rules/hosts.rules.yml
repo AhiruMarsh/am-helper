@@ -30,7 +30,7 @@ groups:
           description: "{% raw %}Swap is filling up (< 10% left).\nCurrent is {{ $value }}{% endraw %}"
 
       - alert: HostCpuLoad
-        expr: 100 - (avg by(instance) (rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 80
+        expr: 100 - (avg by(instance, project) (rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 80
         for: 0m
         labels:
           severity: warning
@@ -47,11 +47,11 @@ groups:
         labels:
           severity: warning
         annotations:
-          summary: "{% raw %}{{ $labels.instance }}{% endraw %}"
+          summary: "{% raw %}{{ $labels.instance }}({{ $labels.mountpoint }}){% endraw %}"
           description: "{% raw %}Disk is almost full (< 10% left).\nCurrent is {{ $value }}{% endraw %}"
 
       - alert: HostDiskInode
-        expr: node_filesystem_files_free{mountpoint ="/rootfs"} / node_filesystem_files{mountpoint="/rootfs"} * 100 < 10 and ON (instance, device, mountpoint) node_filesystem_readonly{mountpoint="/rootfs"} == 0
+        expr: node_filesystem_files_free{mountpoint="/rootfs"} / node_filesystem_files{mountpoint="/rootfs"} * 100 < 10 and ON (instance, device, mountpoint) node_filesystem_readonly{mountpoint="/rootfs"} == 0
         for: 2m
         labels:
           severity: warning
