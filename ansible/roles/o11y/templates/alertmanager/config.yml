@@ -6,8 +6,8 @@ route:
   repeat_interval: 1d
   routes:
     - receiver: discord
-      match:
-        severity: critical
+      match_re:
+        severity: "warning|critical"
 
 receivers:
   - name: default
