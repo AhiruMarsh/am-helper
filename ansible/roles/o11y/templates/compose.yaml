@@ -1,8 +1,10 @@
 services:
   alertmanager:
     image: prom/alertmanager:latest
+    command:
+      - --config.file=/etc/alertmanager/config.yml
     volumes:
-      - ./alertmanager/config.yaml:/etc/alertmanager/config.yaml:ro
+      - ./alertmanager/config.yml:/etc/alertmanager/config.yml:ro
       - /etc/timezone:/etc/timezone:ro
     restart: always
 
