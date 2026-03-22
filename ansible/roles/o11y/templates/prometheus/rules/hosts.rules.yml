@@ -7,5 +7,5 @@ groups:
         labels:
           severity: warning
         annotations:
-          title: Node {{ $labels.instance }} is down
-          description: Failed to scrape {{ $labels.job }} on {{ $labels.instance }} for more than 2 minutes. Node seems down.
+          title: "{% raw %}Node {{ $labels.instance }} is down{% endraw %}"
+          description: "{% raw %}Failed to scrape {{ $labels.job }} on {{ $labels.instance }} for more than 2 minutes. Node seems down.{% endraw %}"
