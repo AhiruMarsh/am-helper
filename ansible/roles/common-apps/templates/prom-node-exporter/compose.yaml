@@ -9,4 +9,4 @@ services:
     restart: unless-stopped
     volumes:
       - "/:/host:ro,rslave"
-      - "/run/systemd/private:/run/systemd/private:ro"
+      - "/var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket:ro"
