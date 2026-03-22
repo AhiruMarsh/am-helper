@@ -4,6 +4,7 @@ global:
 
 rule_files:
   - /etc/prometheus/rules/hosts.rules.yml
+  - /etc/prometheus/rules/nginx.rules.yml
 
 alerting:
   alertmanagers:
