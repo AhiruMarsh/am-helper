@@ -1,2 +1,4 @@
-- targets:
+- labels:
+    project: rpx
+  targets:
     - prom-nginx.a-marsh.net

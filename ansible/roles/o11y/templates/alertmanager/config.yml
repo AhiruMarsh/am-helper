@@ -1,6 +1,6 @@
 route:
   receiver: default
-  group_by: ["alertname", "job"]
+  group_by: ["alertname", "job", "instance"]
   group_wait: 30s
   group_interval: 5m
   repeat_interval: 1d
@@ -14,3 +14,5 @@ receivers:
   - name: discord
     discord_configs:
       - webhook_url: "{{ alertmanager_discord_webhook_url }}"
+        title: >-
+          {% raw %}[{{ .CommonLabels.project }}] {{ if .CommonAnnotations.title }}{{ .CommonAnnotations.title }}{{ else }}{{ .CommonAnnotations.summary }}{{ end }} ({{ .CommonLabels.severity }}){% endraw %}
