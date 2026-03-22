@@ -15,4 +15,10 @@ receivers:
     discord_configs:
       - webhook_url: "{{ alertmanager_discord_webhook_url }}"
         title: >-
-          {% raw %}[{{ .CommonLabels.project }}] {{ if .CommonAnnotations.title }}{{ .CommonAnnotations.title }}{{ else }}{{ .CommonAnnotations.summary }}{{ end }} ({{ .CommonLabels.severity }}){% endraw %}
+          {% raw %}{{ if .CommonLabels.project }}[{{ .CommonLabels.project }}]{{ end }} [{{ .CommonAnnotations.summary }}] {{ if .CommonAnnotations.title }}{{ .CommonAnnotations.title }}{{ end }} ({{ .CommonLabels.severity }}){% endraw %}
+        message: |
+          {% raw %}{{ range .Alerts -}}
+          {{ .Annotations.description }}
+
+          Source: {{ .GeneratorURL }}
+          {{ end }}{% endraw %}

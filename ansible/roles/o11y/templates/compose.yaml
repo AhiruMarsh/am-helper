@@ -10,6 +10,9 @@ services:
 
   prometheus:
     image: prom/prometheus:latest
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --web.external-url=https://prometheus.a-marsh.net
     volumes:
       - ./data/prometheus:/prometheus
       - ./prometheus:/etc/prometheus:ro
