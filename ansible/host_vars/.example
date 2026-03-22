@@ -10,6 +10,8 @@ users:
 
 cloudflared_token: string
 
+alertmanager_discord_webhook_url: string
+prom_client_secret_token: string
 o11y_running: bool
 
 kuma_cloudflared_token: string

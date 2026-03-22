@@ -1,0 +1,16 @@
+route:
+  receiver: default
+  group_by: ["alertname", "job"]
+  group_wait: 30s
+  group_interval: 5m
+  repeat_interval: 1d
+  routes:
+    - receiver: discord
+      match:
+        severity: critical
+
+receivers:
+  - name: default
+  - name: discord
+    discord_configs:
+      - webhook_url: "{{ alertmanager_discord_webhook_url }}"
