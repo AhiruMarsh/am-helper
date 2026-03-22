@@ -1,0 +1,11 @@
+groups:
+  - name: nginx
+    rules:
+      - alert: NginxDown
+        expr: nginx_up{job="nginx"} == 0
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          title: "Nginx"
+          description: "Failed to scrape for more than 5 minutes."
