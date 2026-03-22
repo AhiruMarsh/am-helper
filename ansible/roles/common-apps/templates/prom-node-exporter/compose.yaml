@@ -3,8 +3,10 @@ services:
     image: quay.io/prometheus/node-exporter:latest
     command:
       - "--path.rootfs=/host"
+      - "--collector.systemd"
     network_mode: host
     pid: host
     restart: unless-stopped
     volumes:
       - "/:/host:ro,rslave"
+      - "/run/systemd/private:/run/systemd/private:ro"
