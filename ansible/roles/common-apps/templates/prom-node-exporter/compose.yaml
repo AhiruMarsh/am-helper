@@ -6,6 +6,8 @@ services:
       - "--collector.systemd"
     network_mode: host
     pid: host
+    security_opt:
+      - apparmor=unconfined
     restart: unless-stopped
     volumes:
       - "/:/host:ro,rslave"
