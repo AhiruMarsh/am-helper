@@ -84,8 +84,8 @@ groups:
         labels:
           severity: critical
         annotations:
-          title: "{{ $labels.instance }}"
-          description: "Failed to run {{ $labels.name }}"
+          title: "{% raw %}{{ $labels.instance }}{% endraw %}"
+          description: "{% raw %}Failed to run {{ $labels.name }}.{% endraw %}"
 
       - alert: AppSystemdStatus
         expr: node_systemd_unit_state{project="obs",name="uptime-kuma.service",state="active"} == 0
@@ -93,8 +93,8 @@ groups:
         labels:
           severity: critical
         annotations:
-          title: "{{ $labels.instance }}"
-          description: "Failed to run {{ $labels.name }}"
+          title: "{% raw %}{{ $labels.instance }}{% endraw %}"
+          description: "{% raw %}Failed to run {{ $labels.name }}.{% endraw %}"
 
       - alert: AppSystemdStatus
         expr: node_systemd_unit_state{project="rpx",name="nginx.service",state="active"} == 0
