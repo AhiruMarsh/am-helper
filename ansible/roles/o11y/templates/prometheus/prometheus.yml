@@ -38,7 +38,7 @@ scrape_configs:
         replacement: "$1"
         target_label: instance
 
-  - job_name: "nginx"
+  - job_name: "apps"
     http_headers:
       CF-Access-Client-Id:
         values:
@@ -48,7 +48,7 @@ scrape_configs:
           - "{{ prom_client_secret_token }}"
     file_sd_configs:
       - files:
-          - /etc/prometheus/scrape_configs/nginx.yml
+          - /etc/prometheus/scrape_configs/apps.yml
     relabel_configs:
       - source_labels: [__address__]
         regex: 'prom-(.+)\.a-marsh\.net(:\d+)?'

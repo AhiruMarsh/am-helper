@@ -1,0 +1,11 @@
+groups:
+  - name: minecraft
+    rules:
+      - alert: MinecraftTps
+        expr: mc_tps{project="mc"} < 10
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          title: "{% raw %}{{ $labels.instance }}{% endraw %}"
+          description: "{% raw %}Server TPS is low (< 10).\nCurrent is {{ $value }}{% endraw %}"

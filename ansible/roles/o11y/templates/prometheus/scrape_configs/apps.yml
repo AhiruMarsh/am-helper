@@ -1,0 +1,16 @@
+- labels:
+    project: rpx
+  targets:
+    - prom-nginx.a-marsh.net
+
+- labels:
+    project: mc
+  targets:
+    - prom-mc.a-marsh.net
+    - prom-mc-dev.a-marsh.net
+    - prom-mc-edion.a-marsh.net
+
+- labels:
+    project: pal
+  targets:
+    - prom-pal.a-marsh.net
