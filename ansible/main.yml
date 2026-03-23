@@ -16,7 +16,7 @@
       when: kuma_cloudflared_token is defined
     - role: nginx
       tags: nginx
-      when: (nginx_running is defined) and (nginx_cloudflared_token is defined)
+      when: nginx_running is defined
     - role: minecraft
       tags: minecraft
       when: mc_version is defined
