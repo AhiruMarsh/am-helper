@@ -1,13 +1,13 @@
 [Unit]
 Description=am-helper
 Documentation=https://github.com/AhiruMarsh/am-helper
-After=network.target
+After=network-online.target remote-fs.target
+Wants=network-online.target remote-fs.target
 
 [Service]
-Type=simple
+Type=oneshot
 WorkingDirectory=/opt/a-marsh/am-helper
 ExecStart=/bin/bash am-helper.sh
-Restart=on-failure
 
 [Install]
 WantedBy=multi-user.target
