@@ -5,6 +5,7 @@ global:
 rule_files:
   - /etc/prometheus/rules/hosts.rules.yml
   - /etc/prometheus/rules/nginx.rules.yml
+  - /etc/prometheus/rules/minecraft.rules.yml
 
 alerting:
   alertmanagers:
