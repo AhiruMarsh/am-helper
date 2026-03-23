@@ -7,5 +7,4 @@ groups:
         labels:
           severity: critical
         annotations:
-          title: "Nginx"
           description: "Failed to scrape for more than 5 minutes."

@@ -10,7 +10,15 @@ alerting:
   alertmanagers:
     - static_configs:
         - targets:
-            - alertmanager:9093
+            - alertmanager.a-marsh.net
+      scheme: https
+      http_headers:
+        CF-Access-Client-Id:
+          values:
+            - "47b2c772dac3a4d4ae409ec56f96d993.access"
+        CF-Access-Client-Secret:
+          secrets:
+            - "{{ prom_client_secret_token }}"
 
 scrape_configs:
   - job_name: "hosts"
@@ -24,6 +32,11 @@ scrape_configs:
     file_sd_configs:
       - files:
           - /etc/prometheus/scrape_configs/hosts.yml
+    relabel_configs:
+      - source_labels: [__address__]
+        regex: 'prom-(.+)\.a-marsh\.net(:\d+)?'
+        replacement: "$1"
+        target_label: instance
 
   - job_name: "nginx"
     http_headers:
@@ -36,3 +49,8 @@ scrape_configs:
     file_sd_configs:
       - files:
           - /etc/prometheus/scrape_configs/nginx.yml
+    relabel_configs:
+      - source_labels: [__address__]
+        regex: 'prom-(.+)\.a-marsh\.net(:\d+)?'
+        replacement: "$1"
+        target_label: instance

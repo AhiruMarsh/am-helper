@@ -6,7 +6,7 @@ groups:
         expr: up{job="hosts"} == 0
         for: 5m
         labels:
-          severity: critical
+          severity: warning
         annotations:
           title: "{% raw %}{{ $labels.instance }}{% endraw %}"
           description: "Failed to scrape for more than 5 minutes."
@@ -17,7 +17,7 @@ groups:
         labels:
           severity: warning
         annotations:
-          summary: "{% raw %}{{ $labels.instance }}{% endraw %}"
+          title: "{% raw %}{{ $labels.instance }}{% endraw %}"
           description: "{% raw %}Memory is filling up (< 10% left).\nCurrent is {{ $value }}.{% endraw %}"
 
       - alert: HostSwap
@@ -26,7 +26,7 @@ groups:
         labels:
           severity: warning
         annotations:
-          summary: "{% raw %}{{ $labels.instance }}{% endraw %}"
+          title: "{% raw %}{{ $labels.instance }}{% endraw %}"
           description: "{% raw %}Swap is filling up (< 10% left).\nCurrent is {{ $value }}{% endraw %}"
 
       - alert: HostCpuLoad
@@ -35,7 +35,7 @@ groups:
         labels:
           severity: warning
         annotations:
-          summary: "{% raw %}{{ $labels.instance }}{% endraw %}"
+          title: "{% raw %}{{ $labels.instance }}{% endraw %}"
           description: "{% raw %}CPU load(5m) is high (> 80%).\nCurrent is {{ $value }}{% endraw %}"
 
       # Please add ignored mountpoints in node_exporter parameters like
@@ -47,7 +47,7 @@ groups:
         labels:
           severity: warning
         annotations:
-          summary: "{% raw %}{{ $labels.instance }}({{ $labels.mountpoint }}){% endraw %}"
+          title: "{% raw %}{{ $labels.instance }}({{ $labels.mountpoint }}){% endraw %}"
           description: "{% raw %}Disk is almost full (< 10% left).\nCurrent is {{ $value }}{% endraw %}"
 
       - alert: HostDiskInode
@@ -56,7 +56,7 @@ groups:
         labels:
           severity: warning
         annotations:
-          summary: "{% raw %}{{ $labels.instance }}{% endraw %}"
+          title: "{% raw %}{{ $labels.instance }}{% endraw %}"
           description: "{% raw %}Disk is almost running out of available inodes (< 10% left).\nCurrent is {{ $value }}{% endraw %}"
 
       - alert: HostOOM
@@ -65,7 +65,7 @@ groups:
         labels:
           severity: warning
         annotations:
-          summary: "{% raw %}{{ $labels.instance }}{% endraw %}"
+          title: "{% raw %}{{ $labels.instance }}{% endraw %}"
           description: "{% raw %}OOM kill detected.\nCurrent is {{ $value }}{% endraw %}"
 
       - alert: HostSyncClock
@@ -74,7 +74,7 @@ groups:
         labels:
           severity: warning
         annotations:
-          summary: "{% raw %}{{ $labels.instance }}{% endraw %}"
+          title: "{% raw %}{{ $labels.instance }}{% endraw %}"
           description: "{% raw %}Clock not synchronising.\nCurrent is {{ $value }}{% endraw %}"
 
       # App
