@@ -69,7 +69,7 @@ groups:
           description: "{% raw %}OOM kill detected.\nCurrent is {{ $value }}{% endraw %}"
 
       - alert: HostSyncClock
-        expr: min_over_time(node_timex_sync_status[1m]) == 0 and node_timex_maxerror_seconds >= 16
+        expr: min_over_time(node_timex_sync_status{project!="nght05"}[1m]) == 0 and node_timex_maxerror_seconds{project!="nght05"} >= 16
         for: 0m
         labels:
           severity: warning
