@@ -12,13 +12,13 @@ groups:
           description: "Failed to scrape for more than 5 minutes."
 
       - alert: HostMemory
-        expr: node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes * 100 < 10
+        expr: (node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes) / node_memory_MemTotal_bytes * 100 > 90
         for: 5m
         labels:
           severity: warning
         annotations:
           title: "{% raw %}{{ $labels.instance }}{% endraw %}"
-          description: "{% raw %}Memory is filling up (< 10% left).\nCurrent is {{ $value }}.{% endraw %}"
+          description: "{% raw %}Memory is filling up (< 10% left).\nCurrent is {{ $value }}{% endraw %}"
 
       - alert: HostSwap
         expr: (1 - (node_memory_SwapFree_bytes / node_memory_SwapTotal_bytes)) * 100 > 90
@@ -30,20 +30,20 @@ groups:
           description: "{% raw %}Swap is filling up (< 10% left).\nCurrent is {{ $value }}{% endraw %}"
 
       - alert: HostCpuLoad
-        expr: 100 - (avg by(instance, project) (rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 80
+        expr: 100 - (avg by(instance, project) (rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 90
         for: 0m
         labels:
           severity: warning
         annotations:
           title: "{% raw %}{{ $labels.instance }}{% endraw %}"
-          description: "{% raw %}CPU load(5m) is high (> 80%).\nCurrent is {{ $value }}{% endraw %}"
+          description: "{% raw %}CPU load(5m) is high (> 90%).\nCurrent is {{ $value }}{% endraw %}"
 
       # Please add ignored mountpoints in node_exporter parameters like
       # "--collector.filesystem.ignored-mount-points=^/(sys|proc|dev|run)($|/)".
       # Same rule using "node_filesystem_free_bytes" will fire when disk fills for non-root users.
       - alert: HostDiskSpace
         expr: (node_filesystem_avail_bytes * 100) / node_filesystem_size_bytes < 10 and ON (instance, device, mountpoint) node_filesystem_readonly == 0
-        for: 2m
+        for: 5m
         labels:
           severity: warning
         annotations:
@@ -52,7 +52,7 @@ groups:
 
       - alert: HostDiskInode
         expr: node_filesystem_files_free{mountpoint="/rootfs"} / node_filesystem_files{mountpoint="/rootfs"} * 100 < 10 and ON (instance, device, mountpoint) node_filesystem_readonly{mountpoint="/rootfs"} == 0
-        for: 2m
+        for: 5m
         labels:
           severity: warning
         annotations:
