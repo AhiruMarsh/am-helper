@@ -5,9 +5,13 @@
     "features": {
         "ghcr.io/devcontainers/features/common-utils:2": {
             "username": "vscode"
+        },
+        "ghcr.io/devcontainers/features/python:1": {
+            "installTools": false
         }
     },
     "onCreateCommand": "sudo chown -R vscode:vscode /workspaces/${localWorkspaceFolderBasename}",
+    "postCreateCommand": "pip install --user ansible-lint",
     "privileged": true,
     "overrideCommand": false,
     "runArgs": [
