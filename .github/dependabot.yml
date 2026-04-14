@@ -1,0 +1,31 @@
+version: 2
+updates:
+  - package-ecosystem: docker
+    directory: /ansible/roles/minecraft/templates
+    schedule:
+      interval: weekly
+
+  - package-ecosystem: docker
+    directory: /ansible/roles/palworld/templates
+    schedule:
+      interval: weekly
+
+  - package-ecosystem: docker
+    directory: /ansible/roles/uptime-kuma/templates
+    schedule:
+      interval: weekly
+
+  - package-ecosystem: docker
+    directory: /ansible/roles/common-apps/templates/prom-node-exporter
+    schedule:
+      interval: weekly
+
+  - package-ecosystem: docker
+    directory: /ansible/roles/nginx/templates
+    schedule:
+      interval: weekly
+
+  - package-ecosystem: docker
+    directory: /ansible/roles/o11y/templates
+    schedule:
+      interval: weekly
