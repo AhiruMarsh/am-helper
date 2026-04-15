@@ -1,6 +1,6 @@
 services:
   app:
-    image: itzg/minecraft-server:latest
+    image: itzg/minecraft-server:2026.4.1
     ports:
       - 25565:25565
       - "24454:24454/udp"
@@ -54,7 +54,7 @@ services:
       - app
 
   cloudflared:
-    image: cloudflare/cloudflared:latest
+    image: cloudflare/cloudflared:2026.3.0
     volumes:
       - /etc/timezone:/etc/timezone:ro
     command: tunnel run --token {{ mc_cloudflared_token }}
@@ -63,7 +63,7 @@ services:
     restart: always
 
   db:
-    image: mariadb
+    image: mariadb:12.2.2
     environment:
       MYSQL_ROOT_PASSWORD: "ahirumarsh"
       MYSQL_USER: "mc"

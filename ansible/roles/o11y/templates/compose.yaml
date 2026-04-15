@@ -1,6 +1,6 @@
 services:
   alertmanager:
-    image: prom/alertmanager:latest
+    image: prom/alertmanager:v0.32.0
     command:
       - --config.file=/etc/alertmanager/config.yml
     volumes:
@@ -9,7 +9,7 @@ services:
     restart: always
 
   prometheus:
-    image: prom/prometheus:latest
+    image: prom/prometheus:v3.11.2
     command:
       - --config.file=/etc/prometheus/prometheus.yml
       - --web.external-url=https://prometheus.a-marsh.net
@@ -20,7 +20,7 @@ services:
     restart: always
 
   grafana:
-    image: grafana/grafana:latest
+    image: grafana/grafana:13.0.0
     volumes:
       - ./data/grafana:/var/lib/grafana
       - /etc/timezone:/etc/timezone:ro
@@ -29,7 +29,7 @@ services:
       - prometheus
 
   cloudflared:
-    image: cloudflare/cloudflared:latest
+    image: cloudflare/cloudflared:2026.3.0
     volumes:
       - /etc/timezone:/etc/timezone:ro
     command: tunnel run --token "{{ o11y_cloudflared_token }}"
