@@ -1,4 +1,9 @@
 - labels:
+    project: cloudflare
+  targets:
+    - prom-cloudflare.a-marsh.net
+
+- labels:
     project: rpx
   targets:
     - prom-nginx.a-marsh.net
