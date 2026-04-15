@@ -9,3 +9,12 @@ groups:
         annotations:
           title: "{% raw %}{{ $labels.instance }}{% endraw %}"
           description: "{% raw %}Server TPS is low (< 10).\nCurrent is {{ $value }}{% endraw %}"
+
+      - alert: MinecraftMemory
+        expr: mc_jvm_memory_bytes_used{project="mc",area="heap"} / mc_jvm_memory_bytes_max{project="mc",area="heap"} * 100 > 90
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          title: "{% raw %}{{ $labels.instance }}{% endraw %}"
+          description: "{% raw %}JVM heap memory usage is high (> 90%).\nCurrent is {{ $value }}{% endraw %}"

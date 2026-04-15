@@ -4,6 +4,7 @@ global:
 
 rule_files:
   - /etc/prometheus/rules/hosts.rules.yml
+  - /etc/prometheus/rules/cloudflare.rules.yml
   - /etc/prometheus/rules/nginx.rules.yml
   - /etc/prometheus/rules/minecraft.rules.yml
 
@@ -38,6 +39,19 @@ scrape_configs:
         regex: 'prom-(.+)\.a-marsh\.net(:\d+)?'
         replacement: "$1"
         target_label: instance
+
+  - job_name: "cloudflare"
+    scrape_interval: 10m
+    http_headers:
+      CF-Access-Client-Id:
+        values:
+          - "47b2c772dac3a4d4ae409ec56f96d993.access"
+      CF-Access-Client-Secret:
+        secrets:
+          - "{{ prom_client_secret_token }}"
+    file_sd_configs:
+      - files:
+          - /etc/prometheus/scrape_configs/cloudflare.yml
 
   - job_name: "apps"
     http_headers:
