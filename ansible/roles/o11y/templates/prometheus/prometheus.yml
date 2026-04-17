@@ -41,7 +41,6 @@ scrape_configs:
         target_label: instance
 
   - job_name: "cloudflare"
-    scrape_interval: 10m
     http_headers:
       CF-Access-Client-Id:
         values:
