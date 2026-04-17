@@ -8,14 +8,5 @@ groups:
         labels:
           severity: critical
         annotations:
-          title: "{% raw %}{{ $labels.script_name }}{% endraw %}"
-          description: "{% raw %}An error has occurred in a Cloudflare Worker.\nCurrent is {{ $value }}{% endraw %}"
-
-      - alert: CfWorkerCpuTime
-        expr: cloudflare_worker_cpu_time{quantile="P50"} > 20000
-        for: 0m
-        labels:
-          severity: warning
-        annotations:
-          title: "{% raw %}{{ $labels.script_name }}{% endraw %}"
-          description: "{% raw %}CPU time(P50) is high (> 20ms).\nCurrent is {{ $value }}{% endraw %}"
+          title: "{% raw %}{{ $labels.script_name }}({{ $labels.status }}){% endraw %}"
+          description: "{% raw %}Workers encountered an error.\nCurrent is {{ $value }}{% endraw %}"
