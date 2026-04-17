@@ -19,6 +19,16 @@ services:
       - /etc/timezone:/etc/timezone:ro
     restart: always
 
+  exporter-cloudflare:
+    image: lablabs/cloudflare_exporter:0.2.3
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+    environment:
+      CF_ACCOUNTS: "{{ o11y_exporter_cloudflare_cf_accounts }}"
+      CF_API_TOKEN: "{{ o11y_exporter_cloudflare_cf_api_token }}"
+      FREE_TIER: true
+    restart: always
+
   grafana:
     image: grafana/grafana:13.0.0
     volumes:
