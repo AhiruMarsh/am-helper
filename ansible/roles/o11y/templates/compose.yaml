@@ -20,7 +20,7 @@ services:
     restart: always
 
   exporter-cloudflare:
-    image: ghcr.io/lablabs/cloudflare-exporter:0.2.3
+    image: ghcr.io/lablabs/cloudflare-exporter:latest
     volumes:
       - /etc/timezone:/etc/timezone:ro
     environment:
