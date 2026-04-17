@@ -26,7 +26,7 @@ services:
     environment:
       CF_ACCOUNTS: "{{ o11y_exporter_cloudflare_cf_accounts }}"
       CF_API_TOKEN: "{{ o11y_exporter_cloudflare_cf_api_token }}"
-      FREE_TIER: true
+      FREE_TIER: false
     restart: always
 
   grafana:
