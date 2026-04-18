@@ -3,7 +3,7 @@ groups:
     rules:
       # Worker
       - alert: CfWorkerError
-        expr: cloudflare_worker_errors_count > 0
+        expr: increase(cloudflare_worker_errors_count[1m]) > 0
         for: 0m
         labels:
           severity: critical
