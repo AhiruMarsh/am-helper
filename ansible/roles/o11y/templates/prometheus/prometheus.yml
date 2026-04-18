@@ -20,7 +20,8 @@ alerting:
             - "{{ prom_client_secret_token }}"
     - static_configs:
         - targets:
-            - alertmanager-prod-ap-northeast-0.grafana.net/alertmanager
+            - alertmanager-prod-ap-northeast-0.grafana.net
+      path_prefix: "/alertmanager"
       scheme: https
       basic_auth:
         username: "{{ o11y_alertmanager_username }}"
