@@ -3,7 +3,7 @@ global:
   evaluation_interval: 30s
 
 rule_files:
-  - /etc/prometheus/rules/**/*.rules.yml
+  - /etc/prometheus/rules/*.rules.yml
 
 alerting:
   alertmanagers:
@@ -20,7 +20,7 @@ alerting:
             - "{{ prom_client_secret_token }}"
     - static_configs:
         - targets:
-            - alertmanager-prod-ap-northeast-0.grafana.net
+            - alertmanager-prod-ap-northeast-0.grafana.net/alertmanager
       scheme: https
       basic_auth:
         username: "{{ o11y_alertmanager_username }}"
