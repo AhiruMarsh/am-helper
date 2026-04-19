@@ -9,17 +9,6 @@ alerting:
   alertmanagers:
     - static_configs:
         - targets:
-            - alertmanager.a-marsh.net
-      scheme: https
-      http_headers:
-        CF-Access-Client-Id:
-          values:
-            - "47b2c772dac3a4d4ae409ec56f96d993.access"
-        CF-Access-Client-Secret:
-          secrets:
-            - "{{ o11y_prom_client_secret_token }}"
-    - static_configs:
-        - targets:
             - alertmanager-prod-ap-northeast-0.grafana.net
       path_prefix: "/alertmanager"
       scheme: https
