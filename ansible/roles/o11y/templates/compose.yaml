@@ -1,13 +1,4 @@
 services:
-  alertmanager:
-    image: prom/alertmanager:v0.32.0
-    command:
-      - --config.file=/etc/alertmanager/config.yml
-    volumes:
-      - ./alertmanager/config.yml:/etc/alertmanager/config.yml:ro
-      - /etc/timezone:/etc/timezone:ro
-    restart: always
-
   prometheus:
     image: prom/prometheus:v3.11.2
     command:
@@ -29,15 +20,6 @@ services:
       FREE_TIER: false
     restart: always
 
-  grafana:
-    image: grafana/grafana:13.0
-    volumes:
-      - ./data/grafana:/var/lib/grafana
-      - /etc/timezone:/etc/timezone:ro
-    restart: always
-    depends_on:
-      - prometheus
-
   cloudflared:
     image: cloudflare/cloudflared:2026.3.0
     volumes:
@@ -46,4 +28,3 @@ services:
     restart: always
     depends_on:
       - prometheus
-      - grafana

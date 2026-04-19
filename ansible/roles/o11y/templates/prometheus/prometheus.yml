@@ -17,7 +17,7 @@ alerting:
             - "47b2c772dac3a4d4ae409ec56f96d993.access"
         CF-Access-Client-Secret:
           secrets:
-            - "{{ prom_client_secret_token }}"
+            - "{{ o11y_prom_client_secret_token }}"
     - static_configs:
         - targets:
             - alertmanager-prod-ap-northeast-0.grafana.net
@@ -35,7 +35,7 @@ scrape_configs:
           - "47b2c772dac3a4d4ae409ec56f96d993.access"
       CF-Access-Client-Secret:
         secrets:
-          - "{{ prom_client_secret_token }}"
+          - "{{ o11y_prom_client_secret_token }}"
     file_sd_configs:
       - files:
           - /etc/prometheus/scrape_configs/hosts.yml
@@ -52,7 +52,7 @@ scrape_configs:
           - "47b2c772dac3a4d4ae409ec56f96d993.access"
       CF-Access-Client-Secret:
         secrets:
-          - "{{ prom_client_secret_token }}"
+          - "{{ o11y_prom_client_secret_token }}"
     file_sd_configs:
       - files:
           - /etc/prometheus/scrape_configs/cloudflare.yml
@@ -64,7 +64,7 @@ scrape_configs:
           - "47b2c772dac3a4d4ae409ec56f96d993.access"
       CF-Access-Client-Secret:
         secrets:
-          - "{{ prom_client_secret_token }}"
+          - "{{ o11y_prom_client_secret_token }}"
     file_sd_configs:
       - files:
           - /etc/prometheus/scrape_configs/apps.yml
