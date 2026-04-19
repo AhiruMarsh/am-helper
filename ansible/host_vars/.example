@@ -2,22 +2,32 @@
 hostname: string
 
 # Optional
+# OS: users
 users:
   - name: string
     uid: number
     password: hashed string
     groups: string
 
+# common-apps (prom-node-exporter)
 cloudflared_token: string
 
-alertmanager_discord_webhook_url: string
-prom_client_secret_token: string
-o11y_running: bool
+# project: obs
+o11y_cloudflared_token: string
+o11y_prom_client_secret_token: string
+o11y_alertmanager_username: string
+o11y_alertmanager_password: string
 
+o11y_exporter_cloudflare_cf_accounts: string
+o11y_exporter_cloudflare_cf_api_token: string
+
+# project: kuma (obs)
 kuma_cloudflared_token: string
 
+# project: nginx
 nginx_running: bool
 
+# project: mc
 mc_version: string
 mc_type: string
 mc_hardcore_enabled: bool
