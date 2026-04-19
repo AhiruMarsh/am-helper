@@ -1,0 +1,60 @@
+groups:
+  - name: prometheus
+    rules:
+      - alert: PrometheusDown
+        expr: up{job="prometheus"} == 0
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          title: "{% raw %}{{ $labels.instance }}{% endraw %}"
+          description: "Prometheus instance is down for more than 5 minutes."
+
+      - alert: PrometheusFailedReloadConfig
+        expr: prometheus_config_last_reload_successful == 0
+        for: 0m
+        labels:
+          severity: critical
+        annotations:
+          title: "{% raw %}{{ $labels.instance }}{% endraw %}"
+          description: "Prometheus configuration reload failed."
+
+      - alert: PrometheusNotConnectedAlertmanager
+        expr: prometheus_notifications_alertmanagers_discovered < 1
+        for: 0m
+        labels:
+          severity: critical
+        annotations:
+          title: "{% raw %}{{ $labels.instance }}{% endraw %}"
+          description: "Prometheus is not connected to any Alertmanager."
+
+      - alert: PrometheusFailedEvaluationRules
+        expr: increase(prometheus_rule_evaluation_failures_total[1m]) > 0
+        for: 0m
+        labels:
+          severity: critical
+        annotations:
+          title: "{% raw %}{{ $labels.instance }}{% endraw %}"
+          description: "{% raw %}Prometheus encountered rule evaluation failures.
+
+            Current is {{ $value }}{% endraw %}"
+
+      - alert: PrometheusFailedCompactionsTSDB
+        expr: increase(prometheus_tsdb_compactions_failed_total[1m]) > 0
+        for: 0m
+        labels:
+          severity: critical
+        annotations:
+          title: "{% raw %}{{ $labels.instance }}{% endraw %}"
+          description: "Prometheus encountered TSDB compaction failures."
+
+      - alert: PrometheusFailedSyncTarget
+        expr: increase(prometheus_target_sync_failed_total[3m]) > 0
+        for: 0m
+        labels:
+          severity: warning
+        annotations:
+          title: "{% raw %}{{ $labels.instance }}{% endraw %}"
+          description: "{% raw %}Prometheus encountered target sync failures.
+
+            Current is {{ $value }}{% endraw %}"

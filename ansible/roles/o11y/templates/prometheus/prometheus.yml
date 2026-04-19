@@ -1,6 +1,9 @@
 global:
   scrape_interval: 30s
   evaluation_interval: 30s
+  external_labels:
+    cluster: "prometheus.a-marsh.net"
+    __replica__: "{{ hostname }}"
 
 rule_files:
   - /etc/prometheus/rules/*.rules.yml
@@ -17,6 +20,24 @@ alerting:
         password: "{{ o11y_alertmanager_password }}"
 
 scrape_configs:
+  - job_name: "prometheus"
+    metrics_path: /metrics
+    http_headers:
+      CF-Access-Client-Id:
+        values:
+          - "47b2c772dac3a4d4ae409ec56f96d993.access"
+      CF-Access-Client-Secret:
+        secrets:
+          - "{{ o11y_prom_client_secret_token }}"
+    file_sd_configs:
+      - files:
+          - /etc/prometheus/scrape_configs/prometheus.yml
+    relabel_configs:
+      - source_labels: [ __address__ ]
+        regex: "([^.]+)\\.a-marsh\\.net(:\\d+)?"
+        replacement: "$1"
+        target_label: instance
+
   - job_name: "hosts"
     http_headers:
       CF-Access-Client-Id:

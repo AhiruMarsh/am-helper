@@ -1,0 +1,4 @@
+- labels:
+    project: obs
+  targets:
+    - prometheus.a-marsh.net
