@@ -20,3 +20,13 @@ services:
     restart: always
     depends_on:
       - app
+
+  cloudflared:
+    image: cloudflare/cloudflared:2026.3.0
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+    command: tunnel run --token "{{ rpx_cloudflared_token }}"
+    network_mode: host
+    restart: always
+    depends_on:
+      - app

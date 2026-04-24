@@ -19,7 +19,8 @@
       when: kuma_cloudflared_token is defined
     - role: nginx
       tags: nginx
-      when: rpx_client_secret_token is defined
+      when: (rpx_cloudflared_token is defined) and (rpx_client_secret_token is
+        defined)
     - role: minecraft
       tags: minecraft
       when: mc_version is defined
