@@ -1,4 +1,4 @@
 - labels:
     project: obs
   targets:
-    - prometheus.a-marsh.net
+    - prometheus-02.a-marsh.net
