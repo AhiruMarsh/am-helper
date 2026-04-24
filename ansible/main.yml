@@ -10,9 +10,10 @@
 
     - role: o11y
       tags: o11y
-      when: (o11y_prom_client_secret_token is defined) and (o11y_cloudflared_token is
-        defined) and (o11y_alertmanager_username is defined) and
-        (o11y_alertmanager_password is defined)
+      when: (o11y_prom_client_secret_token is defined) and (o11y_prom_kuma_api_key is
+        defined) and (o11y_cloudflared_token is defined) and
+        (o11y_alertmanager_username is defined) and (o11y_alertmanager_password
+        is defined)
     - role: uptime-kuma
       tags: uptime-kuma
       when: kuma_cloudflared_token is defined

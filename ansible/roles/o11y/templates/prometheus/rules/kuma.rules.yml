@@ -1,0 +1,11 @@
+groups:
+  - name: kuma
+    rules:
+      - alert: KumaDown
+        expr: up{job="kuma"} == 0
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          title: "{% raw %}{{ $labels.instance }}{% endraw %}"
+          description: "Failed to scrape for more than 5 minutes."

@@ -38,6 +38,21 @@ scrape_configs:
         replacement: "$1"
         target_label: instance
 
+  - job_name: "kuma"
+    metrics_path: /metrics
+    http_headers:
+      CF-Access-Client-Id:
+        values:
+          - "47b2c772dac3a4d4ae409ec56f96d993.access"
+      CF-Access-Client-Secret:
+        secrets:
+          - "{{ o11y_prom_client_secret_token }}"
+    basic_auth:
+      password: "{{ o11y_prom_kuma_api_key }}"
+    file_sd_configs:
+      - files:
+          - /etc/prometheus/scrape_configs/kuma.yml
+
   - job_name: "hosts"
     http_headers:
       CF-Access-Client-Id:

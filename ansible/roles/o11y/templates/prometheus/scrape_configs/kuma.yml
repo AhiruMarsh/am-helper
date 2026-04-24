@@ -1,0 +1,4 @@
+- labels:
+    project: obs
+  targets:
+    - status.a-marsh.net

@@ -4,6 +4,7 @@
 # vars:
 #  o11y_cloudflared_token: string
 #  o11y_prom_client_secret_token: string
+#  o11y_prom_kuma_api_key: string
 #  o11y_alertmanager_username: string
 #  o11y_alertmanager_password: string
 #  o11y_exporter_cloudflare_cf_accounts: string
