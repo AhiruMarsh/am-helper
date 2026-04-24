@@ -24,8 +24,9 @@ o11y_exporter_cloudflare_cf_api_token: string
 # project: kuma (obs)
 kuma_cloudflared_token: string
 
-# project: nginx
-nginx_running: bool
+# project: rpx
+rpx_cloudflared_token: string
+rpx_client_secret_token: string
 
 # project: mc
 mc_version: string
