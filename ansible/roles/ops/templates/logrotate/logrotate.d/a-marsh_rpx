@@ -3,6 +3,6 @@
   nocopytruncate
   sharedscripts
   postrotate
-    /usr/local/bin/docker compose -f /opt/a-marsh/nginx/compose.yaml kill -s HUP app
+    /usr/bin/docker compose -f /opt/a-marsh/nginx/compose.yaml kill -s HUP app
   endscript
 }
