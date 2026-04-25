@@ -15,6 +15,16 @@
     validate: logrotate -d %s
   register: set_config
 
+- name: logrotate_ops - Set config for rpx
+  template:
+    src: "logrotate/logrotate.d/a-marsh_rpx"
+    dest: "/etc/logrotate.d/a-marsh_rpx"
+    owner: "root"
+    group: "root"
+    mode: "0644"
+    validate: logrotate -d %s
+  when: (rpx_cloudflared_token is defined) and (rpx_client_secret_token is defined)
+
 - name: logrotate_ops - Restart systemd if changed
   systemd:
     name: logrotate

@@ -1,0 +1,3 @@
+"/opt/a-marsh/nginx/data/log/*.log" {
+  notifempty
+}
