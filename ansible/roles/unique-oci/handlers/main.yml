@@ -5,3 +5,10 @@
   register: apply_iptables
   changed_when: true
   failed_when: apply_iptables.rc != 0
+  notify: "Unique-oci - Restart Docker"
+
+- name: Unique-oci - Restart Docker
+  ansible.builtin.systemd:
+    name: docker
+    state: restarted
+  become: true
