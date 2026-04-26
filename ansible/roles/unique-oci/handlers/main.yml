@@ -1,0 +1,7 @@
+---
+- name: Unique-oci - Apply iptables rules
+  ansible.builtin.command: iptables-restore /etc/iptables/rules.v4
+  become: true
+  register: apply_iptables
+  changed_when: true
+  failed_when: apply_iptables.rc != 0
