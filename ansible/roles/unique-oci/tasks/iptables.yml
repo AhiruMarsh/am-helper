@@ -1,0 +1,27 @@
+---
+- name: Unique-oci - Install iptables
+  ansible.builtin.apt:
+    name:
+      - iptables-persistent
+      - netfilter-persistent
+    state: present
+  become: true
+
+- name: Unique-oci - Set iptables rules
+  ansible.builtin.template:
+    src: rules.v4.j2
+    dest: /etc/iptables/rules.v4
+    owner: root
+    group: root
+    mode: "0640"
+  become: true
+  notify:
+    - "Unique-oci - Apply iptables rules"
+
+  handlers:
+    - name: Unique-oci - Apply iptables rules
+      ansible.builtin.command: iptables-restore /etc/iptables/rules.v4
+      become: true
+      register: apply_iptables
+      changed_when: true
+      failed_when: apply_iptables.rc != 0

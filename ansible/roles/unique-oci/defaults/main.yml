@@ -1,0 +1,6 @@
+---
+# TCP ports to allow for new connections (state NEW)
+oci_iptables_tcp_port_list: []
+
+# UDP ports to allow
+oci_iptables_udp_port_list: []

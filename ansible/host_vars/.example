@@ -1,5 +1,6 @@
 # Required
 hostname: string
+platform_name: string
 
 # Optional
 # OS: users
@@ -27,6 +28,9 @@ kuma_cloudflared_token: string
 # project: rpx
 rpx_cloudflared_token: string
 rpx_client_secret_token: string
+
+oci_iptables_tcp_port_list: list<int>
+oci_iptables_udp_port_list: list<int>
 
 # project: mc
 mc_version: string
