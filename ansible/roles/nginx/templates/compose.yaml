@@ -3,7 +3,7 @@ services:
     image: nginx:1.30.0
     user: "101:101"
     volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
       - ./nginx/conf.d:/etc/nginx/conf.d:ro
       - ./nginx/stream.d:/etc/nginx/stream.d:ro
       - ./data/log:/var/log/nginx
