@@ -4,6 +4,7 @@
   apt:
     name: logrotate
     state: present
+  when: ansible_facts['distribution'] == "Ubuntu"
 
 - name: logrotate_ops - Set config
   template:
