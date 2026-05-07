@@ -5,6 +5,7 @@
     name: unattended-upgrades
     state: present
   become: true
+  when: ansible_facts['distribution'] == "Ubuntu"
 
 - name: Set config unattended-upgrades
   ansible.builtin.template:
@@ -15,6 +16,7 @@
     mode: "0644"
   become: true
   register: set_config
+  when: ansible_facts['distribution'] == "Ubuntu"
 
 - name: Reload service unattended-upgrades
   ansible.builtin.systemd:

@@ -4,6 +4,7 @@
   apt:
     name: git
     state: present
+  when: ansible_facts['distribution'] == "Ubuntu"
 
 - name: am-helper - Create directory
   file:
