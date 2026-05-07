@@ -4,6 +4,7 @@
   apt:
     name: sudo
     state: present
+  when: ansible_facts['distribution'] == "Ubuntu"
 
 - name: sudo - Create directory
   file:

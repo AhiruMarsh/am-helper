@@ -6,6 +6,7 @@
       - netfilter-persistent
     state: present
   become: true
+  when: ansible_facts['distribution'] == "Ubuntu"
 
 - name: Unique-oci - Set iptables rules
   ansible.builtin.template:
