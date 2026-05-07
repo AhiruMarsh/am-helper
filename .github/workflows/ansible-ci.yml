@@ -47,10 +47,8 @@ jobs:
           cacheFrom: ${{ env.DEVCONTAINER_IMAGE }}
           push: never
           runCmd: |
-            pip install --break-system-packages ansible-lint
-            cd ansible
-            # ansible-lint main.yml
-            ansible-playbook main.yml --syntax-check
+            # ansible-lint ansible/main.yml
+            ansible-playbook ansible/main.yml --syntax-check
 
   deploy:
     runs-on: ubuntu-latest
@@ -86,5 +84,4 @@ jobs:
           cacheFrom: ${{ env.DEVCONTAINER_IMAGE }}
           push: always
           runCmd: |
-            cd ansible
-            ansible-playbook main.yml --become
+            ansible-playbook ansible/main.yml --become

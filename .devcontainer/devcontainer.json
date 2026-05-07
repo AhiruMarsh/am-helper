@@ -11,7 +11,7 @@
         }
     },
     "onCreateCommand": "sudo chown -R vscode:vscode /workspaces/${localWorkspaceFolderBasename}",
-    "postCreateCommand": "pip install --user ansible-lint",
+    "postCreateCommand": "pip install --break-system-packages ansible-lint",
     "privileged": true,
     "overrideCommand": false,
     "runArgs": [
