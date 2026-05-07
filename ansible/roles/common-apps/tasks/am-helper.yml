@@ -18,6 +18,7 @@
   git:
     repo: "https://github.com/AhiruMarsh/am-helper"
     dest: "/opt/a-marsh/am-helper"
+    version: "main"
   become: true
   become_user: "root"
   ignore_errors: true
