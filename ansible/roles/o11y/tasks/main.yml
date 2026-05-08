@@ -35,7 +35,7 @@
     owner: "am-helper"
     group: "am-helper"
     mode: "0644"
-  register: set_docker_config
+  register: o11y_set_docker_config
   with_filetree: "templates/"
   when: item.state == "file"
 
@@ -46,7 +46,7 @@
     owner: "am-helper"
     group: "am-helper"
     mode: "0644"
-  register: set_systemd_config
+  register: o11y_set_systemd_config
 
 - name: O11y - Restart systemd service if changed
   ansible.builtin.systemd:
@@ -55,4 +55,4 @@
     state: restarted
     enabled: true
   ignore_errors: true
-  when: set_docker_config.changed or set_systemd_config.changed
+  when: o11y_set_docker_config.changed or o11y_set_systemd_config.changed

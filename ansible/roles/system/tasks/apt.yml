@@ -15,7 +15,7 @@
     group: "root"
     mode: "0644"
   become: true
-  register: set_config
+  register: system_set_config
   when: ansible_facts['distribution'] == "Ubuntu"
 
 - name: Reload service unattended-upgrades
@@ -24,4 +24,4 @@
     enabled: true
     state: "restarted"
   become: true
-  when: set_config.changed
+  when: system_set_config.changed

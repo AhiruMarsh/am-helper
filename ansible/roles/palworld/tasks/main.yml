@@ -22,7 +22,7 @@
     owner: "am-helper"
     group: "am-helper"
     mode: "0644"
-  register: set_game_config
+  register: palworld_set_game_config
 
 - name: Palworld - Create systemd service
   ansible.builtin.template:
@@ -31,7 +31,7 @@
     owner: "am-helper"
     group: "am-helper"
     mode: "0644"
-  register: set_systemd_config
+  register: palworld_set_systemd_config
 
 - name: Palworld - Restart systemd service if changed
   ansible.builtin.systemd:
@@ -40,4 +40,4 @@
     state: restarted
     enabled: true
   ignore_errors: true
-  when: set_game_config.changed or set_systemd_config.changed
+  when: palworld_set_game_config.changed or palworld_set_systemd_config.changed

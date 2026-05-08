@@ -14,7 +14,7 @@
     group: "root"
     mode: "0644"
     validate: logrotate -d %s
-  register: set_config
+  register: ops_set_config
 
 - name: Logrotate_ops - Set config for rpx
   ansible.builtin.template:
@@ -30,4 +30,4 @@
   ansible.builtin.systemd:
     name: logrotate
     state: restarted
-  when: set_config.changed
+  when: ops_set_config.changed

@@ -6,10 +6,10 @@
 ---
 - name: Timezone - Check timezone
   ansible.builtin.shell: timedatectl status | grep Asia/Tokyo
-  register: current_timezone
-  changed_when: current_timezone.rc == 1
-  failed_when: current_timezone.rc not in [0,1]
+  register: system_current_timezone
+  changed_when: system_current_timezone.rc == 1
+  failed_when: system_current_timezone.rc not in [0,1]
 
 - name: Timezone - Change timezone if changed
   ansible.builtin.shell: timedatectl set-timezone Asia/Tokyo
-  when: current_timezone.rc == 1
+  when: system_current_timezone.rc == 1

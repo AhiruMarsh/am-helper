@@ -40,7 +40,7 @@
     owner: "am-helper"
     group: "am-helper"
     mode: "0644"
-  register: set_game_config
+  register: minecraft_set_game_config
   with_filetree: "templates/"
   when: item.state == "file"
 
@@ -51,7 +51,7 @@
     owner: "am-helper"
     group: "am-helper"
     mode: "0644"
-  register: set_systemd_config
+  register: minecraft_set_systemd_config
 
 - name: Minecraft - Restart systemd service if changed
   ansible.builtin.systemd:
@@ -60,4 +60,4 @@
     state: restarted
     enabled: true
   ignore_errors: true
-  when: set_game_config.changed or set_systemd_config.changed
+  when: minecraft_set_game_config.changed or minecraft_set_systemd_config.changed
