@@ -7,7 +7,7 @@
 #    pal_admin_password: string
 #    pal_discord_webhook_url: string (optional)
 ---
-- name: palworld - Create directory
+- name: Palworld - Create directory
   ansible.builtin.file:
     path: "/opt/a-marsh/palworld"
     state: directory
@@ -15,7 +15,7 @@
     group: "am-helper"
     mode: "0755"
 
-- name: palworld - Create config
+- name: Palworld - Create config
   ansible.builtin.template:
     src: "compose.yml"
     dest: "/opt/a-marsh/palworld/compose.yml"
@@ -24,7 +24,7 @@
     mode: "0644"
   register: set_game_config
 
-- name: palworld - Create systemd service
+- name: Palworld - Create systemd service
   ansible.builtin.template:
     src: "palworld.service"
     dest: "/etc/systemd/system/palworld.service"
@@ -33,7 +33,7 @@
     mode: "0644"
   register: set_systemd_config
 
-- name: palworld - Restart systemd service if changed
+- name: Palworld - Restart systemd service if changed
   ansible.builtin.systemd:
     name: "palworld.service"
     daemon-reload: true

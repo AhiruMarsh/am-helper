@@ -1,12 +1,12 @@
 # am-helper settings
 ---
-- name: am-helper - Install git
+- name: Am-helper - Install git
   ansible.builtin.apt:
     name: git
     state: present
   when: ansible_facts['distribution'] == "Ubuntu"
 
-- name: am-helper - Create directory
+- name: Am-helper - Create directory
   ansible.builtin.file:
     path: "/opt/a-marsh"
     state: directory
@@ -14,7 +14,7 @@
     group: "am-helper"
     mode: "0755"
 
-- name: am-helper - Clone am-helper
+- name: Am-helper - Clone am-helper
   ansible.builtin.git:
     repo: "https://github.com/AhiruMarsh/am-helper"
     dest: "/opt/a-marsh/am-helper"
@@ -24,7 +24,7 @@
   ignore_errors: true
   register: clone_git
 
-- name: am-helper - Copy config
+- name: Am-helper - Copy config
   ansible.builtin.copy:
     src: "{{ playbook_dir }}/host_vars/localhost"
     dest: "/opt/a-marsh/am-helper/ansible/host_vars/localhost"
@@ -33,7 +33,7 @@
     mode: "0644"
   when: clone_git.changed
 
-- name: am-helper - Set systemd service
+- name: Am-helper - Set systemd service
   ansible.builtin.copy:
     src: "/opt/a-marsh/am-helper/systemd/{{ item }}"
     dest: "/etc/systemd/system/{{ item }}"
@@ -45,7 +45,7 @@
     - "am-helper.service"
     - "am-helper.timer"
 
-- name: am-helper - Reload systemd service if changed
+- name: Am-helper - Reload systemd service if changed
   ansible.builtin.systemd:
     name: "{{ item }}"
     daemon-reload: true

@@ -1,6 +1,6 @@
 # docker Settings
 ---
-- name: docker - Install dependency packages
+- name: Docker - Install dependency packages
   ansible.builtin.apt:
     name:
       - ca-certificates
@@ -8,7 +8,7 @@
     state: present
   when: ansible_facts['distribution'] == "Ubuntu"
 
-- name: docker - Create directory
+- name: Docker - Create directory
   ansible.builtin.file:
     path: "/etc/apt/keyrings"
     state: directory
@@ -17,7 +17,7 @@
     mode: "0755"
   when: ansible_facts['distribution'] == "Ubuntu"
 
-- name: docker - Add Docker's official GPG key
+- name: Docker - Add Docker's official GPG key
   ansible.builtin.get_url:
     url: https://download.docker.com/linux/ubuntu/gpg
     dest: /etc/apt/keyrings/docker.asc
@@ -26,7 +26,7 @@
     mode: "0644"
   when: ansible_facts['distribution'] == "Ubuntu"
 
-- name: docker - Add the repository to Apt sources
+- name: Docker - Add the repository to Apt sources
   ansible.builtin.shell: |
     echo \
       "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
@@ -37,7 +37,7 @@
   failed_when: docker_apt_add_repo.rc != 0
   when: ansible_facts['distribution'] == "Ubuntu"
 
-- name: docker - Install docker
+- name: Docker - Install docker
   ansible.builtin.apt:
     name:
       - docker-ce
@@ -49,7 +49,7 @@
     state: present
   register: install_docker
 
-- name: docker - Set systemd service
+- name: Docker - Set systemd service
   ansible.builtin.systemd:
     name: docker
     state: started

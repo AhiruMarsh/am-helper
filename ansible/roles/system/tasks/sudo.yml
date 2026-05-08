@@ -1,12 +1,12 @@
 # Linux sudo Settings
 ---
-- name: sudo - Install sudo
+- name: Sudo - Install sudo
   ansible.builtin.apt:
     name: sudo
     state: present
   when: ansible_facts['distribution'] == "Ubuntu"
 
-- name: sudo - Create directory
+- name: Sudo - Create directory
   ansible.builtin.file:
     path: "/etc/sudoers.d"
     state: directory
@@ -14,7 +14,7 @@
     group: "root"
     mode: "0755"
 
-- name: sudo - Set customized config
+- name: Sudo - Set customized config
   ansible.builtin.template:
     src: "sudoers.d/generated-ansible"
     dest: "/etc/sudoers.d/generated-ansible"

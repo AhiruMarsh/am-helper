@@ -4,7 +4,7 @@
 # vars:
 #   hostname: string
 ---
-- name: hostname - Set hostname
+- name: Hostname - Set hostname
   ansible.builtin.hostname:
     name: "{{ hostname }}"
   ignore_errors: true

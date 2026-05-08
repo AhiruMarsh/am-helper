@@ -1,3 +1,5 @@
 ---
-- ansible.builtin.import_tasks: logrotate.yml
-- ansible.builtin.import_tasks: docker.yml
+- name: Ops - logrotate
+  ansible.builtin.import_tasks: logrotate.yml
+- name: Ops - docker
+  ansible.builtin.import_tasks: docker.yml

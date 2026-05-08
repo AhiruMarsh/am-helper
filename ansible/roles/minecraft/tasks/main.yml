@@ -15,7 +15,7 @@
 #    mc_discordsrv_channel_console_id: string
 #    mc_cloudflared_token: string
 ---
-- name: minecraft - Create directory
+- name: Minecraft - Create directory
   ansible.builtin.file:
     path: "/opt/a-marsh/minecraft"
     state: directory
@@ -23,7 +23,7 @@
     group: "am-helper"
     mode: "0755"
 
-- name: minecraft - Create config directory
+- name: Minecraft - Create config directory
   ansible.builtin.file:
     path: "/opt/a-marsh/minecraft/{{ item.path }}"
     state: directory
@@ -33,7 +33,7 @@
   with_filetree: "templates/"
   when: item.state == "directory"
 
-- name: minecraft - Create config
+- name: Minecraft - Create config
   ansible.builtin.template:
     src: "{{ item.src }}"
     dest: "/opt/a-marsh/minecraft/{{ item.path | regex_replace('\\.j2$', '') }}"
@@ -44,7 +44,7 @@
   with_filetree: "templates/"
   when: item.state == "file"
 
-- name: minecraft - Create systemd service
+- name: Minecraft - Create systemd service
   ansible.builtin.template:
     src: "minecraft.service"
     dest: "/etc/systemd/system/minecraft.service"
@@ -53,7 +53,7 @@
     mode: "0644"
   register: set_systemd_config
 
-- name: minecraft - Restart systemd service if changed
+- name: Minecraft - Restart systemd service if changed
   ansible.builtin.systemd:
     name: "minecraft.service"
     daemon-reload: true
