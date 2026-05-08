@@ -5,7 +5,7 @@
 #   kuma_cloudflared_token: string
 ---
 - name: kuma - Create directory
-  file:
+  ansible.builtin.file:
     path: "/opt/a-marsh/kuma"
     state: directory
     owner: "am-helper"
@@ -13,7 +13,7 @@
     mode: "0755"
 
 - name: kuma - Create docker compose config
-  template:
+  ansible.builtin.template:
     src: "compose.yaml"
     dest: "/opt/a-marsh/kuma/compose.yaml"
     owner: "am-helper"
@@ -22,7 +22,7 @@
   register: set_docker_config
 
 - name: kuma - Create systemd service
-  template:
+  ansible.builtin.template:
     src: "uptime-kuma.service"
     dest: "/etc/systemd/system/uptime-kuma.service"
     owner: "am-helper"
@@ -31,7 +31,7 @@
   register: set_systemd_config
 
 - name: kuma - Restart systemd service if changed
-  systemd:
+  ansible.builtin.systemd:
     name: "uptime-kuma.service"
     daemon-reload: true
     state: restarted

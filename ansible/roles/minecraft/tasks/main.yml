@@ -16,7 +16,7 @@
 #    mc_cloudflared_token: string
 ---
 - name: minecraft - Create directory
-  file:
+  ansible.builtin.file:
     path: "/opt/a-marsh/minecraft"
     state: directory
     owner: "am-helper"
@@ -24,7 +24,7 @@
     mode: "0755"
 
 - name: minecraft - Create config directory
-  file:
+  ansible.builtin.file:
     path: "/opt/a-marsh/minecraft/{{ item.path }}"
     state: directory
     owner: "am-helper"
@@ -34,7 +34,7 @@
   when: item.state == "directory"
 
 - name: minecraft - Create config
-  template:
+  ansible.builtin.template:
     src: "{{ item.src }}"
     dest: "/opt/a-marsh/minecraft/{{ item.path | regex_replace('\\.j2$', '') }}"
     owner: "am-helper"
@@ -45,7 +45,7 @@
   when: item.state == "file"
 
 - name: minecraft - Create systemd service
-  template:
+  ansible.builtin.template:
     src: "minecraft.service"
     dest: "/etc/systemd/system/minecraft.service"
     owner: "am-helper"
@@ -54,7 +54,7 @@
   register: set_systemd_config
 
 - name: minecraft - Restart systemd service if changed
-  systemd:
+  ansible.builtin.systemd:
     name: "minecraft.service"
     daemon-reload: true
     state: restarted

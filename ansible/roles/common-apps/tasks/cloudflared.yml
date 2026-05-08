@@ -5,7 +5,7 @@
 #   cloudflared_token: string
 ---
 - name: cloudflared - Create directory
-  file:
+  ansible.builtin.file:
     path: "/etc/apt/keyrings"
     state: directory
     owner: "root"
@@ -14,7 +14,7 @@
   when: ansible_facts['distribution'] == "Ubuntu"
 
 - name: cloudflared - Add Docker's official GPG key
-  get_url:
+  ansible.builtin.get_url:
     url: https://pkg.cloudflare.com/cloudflare-main.gpg
     dest: /usr/share/keyrings/cloudflare-main.gpg
     owner: "root"
@@ -23,7 +23,7 @@
   when: ansible_facts['distribution'] == "Ubuntu"
 
 - name: cloudflared - Add the repository to Apt sources
-  shell: |
+  ansible.builtin.shell: |
     echo \
       "deb [signed-by=/usr/share/keyrings/cloudflare-main.gpg] https://pkg.cloudflare.com/cloudflared \
       jammy main" | \
@@ -34,13 +34,13 @@
   when: ansible_facts['distribution'] == "Ubuntu"
 
 - name: cloudflared - Install cloudflared
-  apt:
+  ansible.builtin.apt:
     name: cloudflared
     update_cache: true
     state: present
 
 - name: cloudflared - Set systemd service
-  shell: cloudflared service install {{ cloudflared_token }}
+  ansible.builtin.shell: cloudflared service install {{ cloudflared_token }}
   register: cloudflared_service
   changed_when: cloudflared_service.rc == 0
   failed_when: cloudflared_service.rc not in [0,1]

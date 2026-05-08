@@ -5,6 +5,6 @@
 #   hostname: string
 ---
 - name: hostname - Set hostname
-  hostname:
+  ansible.builtin.hostname:
     name: "{{ hostname }}"
   ignore_errors: true

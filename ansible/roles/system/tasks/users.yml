@@ -10,7 +10,7 @@
 #       groups:   string
 ---
 - name: users - Create oprational user
-  user:
+  ansible.builtin.user:
     name: "am-helper"
     comment: "am-helper"
     uid: "2200"
@@ -19,7 +19,7 @@
     shell: "/bin/bash"
 
 - name: users - Create optional user
-  user:
+  ansible.builtin.user:
     name: "{{ item.name }}"
     comment: "{{ item.name }}"
     uid: "{{ item.uid }}"

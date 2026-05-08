@@ -1,7 +1,7 @@
 # app Settings (nginx)
 ---
 - name: nginx - Create directory
-  file:
+  ansible.builtin.file:
     path: "/opt/a-marsh/nginx"
     state: directory
     owner: "am-helper"
@@ -9,7 +9,7 @@
     mode: "0755"
 
 - name: nginx - Create config directory
-  file:
+  ansible.builtin.file:
     path: "/opt/a-marsh/nginx/{{ item.path }}"
     state: directory
     owner: "am-helper"
@@ -19,7 +19,7 @@
   when: item.state == "directory"
 
 - name: nginx - Create config
-  template:
+  ansible.builtin.template:
     src: "{{ item.src }}"
     dest: "/opt/a-marsh/nginx/{{ item.path | regex_replace('\\.j2$', '') }}"
     owner: "am-helper"
@@ -30,7 +30,7 @@
   when: item.state == "file"
 
 - name: nginx - Create systemd service
-  template:
+  ansible.builtin.template:
     src: "nginx.service"
     dest: "/etc/systemd/system/nginx.service"
     owner: "am-helper"
@@ -39,7 +39,7 @@
   register: set_systemd_config
 
 - name: nginx - Restart systemd service if changed
-  systemd:
+  ansible.builtin.systemd:
     name: "nginx.service"
     daemon-reload: true
     state: restarted

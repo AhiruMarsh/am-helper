@@ -1,7 +1,7 @@
 # app Settings (prom-node-exporter)
 ---
 - name: prom-node-exporter - Create directory
-  file:
+  ansible.builtin.file:
     path: "/opt/a-marsh/prom-node-exporter"
     state: directory
     owner: "am-helper"
@@ -9,7 +9,7 @@
     mode: "0755"
 
 - name: prom-node-exporter - Create docker compose config
-  template:
+  ansible.builtin.template:
     src: "prom-node-exporter/compose.yaml"
     dest: "/opt/a-marsh/prom-node-exporter/compose.yaml"
     owner: "am-helper"
@@ -18,7 +18,7 @@
   register: set_docker_config
 
 - name: prom-node-exporter - Create systemd service
-  template:
+  ansible.builtin.template:
     src: "prom-node-exporter/prom-node-exporter.service"
     dest: "/etc/systemd/system/prom-node-exporter.service"
     owner: "am-helper"
@@ -27,7 +27,7 @@
   register: set_systemd_config
 
 - name: prom-node-exporter - Restart systemd service if changed
-  systemd:
+  ansible.builtin.systemd:
     name: "prom-node-exporter.service"
     daemon-reload: true
     state: restarted

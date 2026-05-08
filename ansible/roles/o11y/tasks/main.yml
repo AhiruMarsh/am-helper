@@ -11,7 +11,7 @@
 #  o11y_exporter_cloudflare_cf_api_token: string
 ---
 - name: o11y - Create directory
-  file:
+  ansible.builtin.file:
     path: "/opt/a-marsh/observability"
     state: directory
     owner: "am-helper"
@@ -19,7 +19,7 @@
     mode: "0755"
 
 - name: o11y - Create config directory
-  file:
+  ansible.builtin.file:
     path: "/opt/a-marsh/observability/{{ item.path }}"
     state: directory
     owner: "am-helper"
@@ -29,7 +29,7 @@
   when: item.state == "directory"
 
 - name: o11y - Create config
-  template:
+  ansible.builtin.template:
     src: "{{ item.src }}"
     dest: "/opt/a-marsh/observability/{{ item.path | regex_replace('\\.j2$', '') }}"
     owner: "am-helper"
@@ -40,7 +40,7 @@
   when: item.state == "file"
 
 - name: o11y - Create systemd service
-  template:
+  ansible.builtin.template:
     src: "observability.service"
     dest: "/etc/systemd/system/observability.service"
     owner: "am-helper"
@@ -49,7 +49,7 @@
   register: set_systemd_config
 
 - name: o11y - Restart systemd service if changed
-  systemd:
+  ansible.builtin.systemd:
     name: "observability.service"
     daemon-reload: true
     state: restarted

@@ -1,15 +1,15 @@
 # Linux sshd Settings
 ---
 - name: sshd - Create directory
-  file:
+  ansible.builtin.file:
     path: "/etc/ssh/sshd_config.d"
     state: directory
     owner: "root"
     group: "root"
-    mode:  "0755" 
+    mode: "0755"
 
 - name: sshd - Set public CA
-  template:
+  ansible.builtin.template:
     src: "sshd_config.d/cloudflare_ssh_ca.pub"
     dest: "/etc/ssh/cloudflare_ssh_ca.pub"
     owner: "root"
@@ -17,9 +17,9 @@
     mode: "0600"
 
 - name: sshd - Set customized config
-  template:
-    src:   "sshd_config.d/00-generated-ansible.conf"
-    dest:  "/etc/ssh/sshd_config.d/00-generated-ansible.conf"
+  ansible.builtin.template:
+    src: "sshd_config.d/00-generated-ansible.conf"
+    dest: "/etc/ssh/sshd_config.d/00-generated-ansible.conf"
     owner: "root"
     group: "root"
-    mode:  "0644"
+    mode: "0644"
