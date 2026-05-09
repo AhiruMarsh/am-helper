@@ -4,7 +4,7 @@
 # vars:
 #   hostname: string
 ---
-- name: hostname - Set hostname
-  hostname:
+- name: Hostname - Set hostname
+  ansible.builtin.hostname:
     name: "{{ hostname }}"
-  ignore_errors: true
+  when: ansible_facts['virtualization_type'] | default('') not in ['docker', 'lxc', 'podman', 'container']

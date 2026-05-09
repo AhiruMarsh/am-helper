@@ -1,7 +1,7 @@
 # docker oprations
 ---
-- name: docker_ops - Remove unused images
-  shell: docker image prune -f
-  register: docker_ops_prune
+- name: Docker_ops - Remove unused images
+  ansible.builtin.command: docker image prune -f
+  register: ops_docker_ops_prune
   changed_when: false
-  failed_when: docker_ops_prune.rc != 0
+  failed_when: ops_docker_ops_prune.rc != 0

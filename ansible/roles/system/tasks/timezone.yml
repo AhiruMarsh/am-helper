@@ -4,12 +4,12 @@
 # vars:
 #   timezone: string
 ---
-- name: timezone - Check timezone
-  shell: timedatectl status | grep Asia/Tokyo
-  register: current_timezone
-  changed_when: current_timezone.rc == 1
-  failed_when: current_timezone.rc not in [0,1]
+- name: Timezone - Check timezone
+  ansible.builtin.command: timedatectl status
+  register: system_current_timezone
+  changed_when: false
 
-- name: timezone - Change timezone if changed
-  shell: timedatectl set-timezone Asia/Tokyo
-  when: current_timezone.rc == 1
+- name: Timezone - Change timezone if changed
+  ansible.builtin.command: timedatectl set-timezone Asia/Tokyo
+  changed_when: true
+  when: "'Asia/Tokyo' not in system_current_timezone.stdout"

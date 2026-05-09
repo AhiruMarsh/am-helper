@@ -1,4 +1,6 @@
 # default variables (palworld)
 ---
+# noqa var-naming[no-role-prefix]
 pal_join_fqdn: "pal.a-marsh.net"
+# noqa var-naming[no-role-prefix]
 pal_discord_webhook_url: ""

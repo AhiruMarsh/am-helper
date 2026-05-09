@@ -1,41 +1,32 @@
 # cockpit Settings
 ---
-- name: cockpit - Install cockpit
-  apt:
+- name: Cockpit - Install cockpit
+  ansible.builtin.apt:
     name:
       - cockpit
       - cockpit-pcp
     state: present
   when: ansible_facts['distribution'] == "Ubuntu"
 
-- name: cockpit - Set customized config
-  template:
+- name: Cockpit - Set customized config
+  ansible.builtin.template:
     src: "cockpit/cockpit.conf.j2"
     dest: "/etc/cockpit/cockpit.conf"
     owner: "root"
     group: "root"
     mode: "0644"
-  register: set_config
 
-- name: cockpit - Set network dummy config
-  template:
+- name: Cockpit - Set network dummy config
+  ansible.builtin.template:
     src: "cockpit/10-globally-managed-devices.conf"
     dest: "/etc/NetworkManager/conf.d/10-globally-managed-devices.conf"
     owner: "root"
     group: "root"
     mode: "0644"
-  register: set_nw_config
+  notify: "Cockpit - Apply network dummy config"
 
-- name: cockpit - apply network dummy config
-  shell: "nmcli con add type dummy con-name fake ifname fake0 ip4 1.2.3.4/24 gw4
-    1.2.3.1"
-  register: apply_nw_conf
-  failed_when: apply_nw_conf.rc not in [0,1]
-  when: set_nw_config.changed
-
-- name: cockpit - Set systemd service
-  systemd:
+- name: Cockpit - Set systemd service
+  ansible.builtin.systemd:
     name: "cockpit.socket"
     state: started
     enabled: true
-  when: set_config.changed

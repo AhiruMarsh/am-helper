@@ -10,49 +10,50 @@
 #  o11y_exporter_cloudflare_cf_accounts: string
 #  o11y_exporter_cloudflare_cf_api_token: string
 ---
-- name: o11y - Create directory
-  file:
+- name: O11y - Create directory
+  ansible.builtin.file:
     path: "/opt/a-marsh/observability"
     state: directory
     owner: "am-helper"
     group: "am-helper"
     mode: "0755"
 
-- name: o11y - Create config directory
-  file:
+- name: O11y - Create config directory
+  ansible.builtin.file:
     path: "/opt/a-marsh/observability/{{ item.path }}"
     state: directory
     owner: "am-helper"
     group: "am-helper"
     mode: "0755"
-  with_filetree: "templates/"
+  with_community.general.filetree: "templates/"
   when: item.state == "directory"
 
-- name: o11y - Create config
-  template:
+- name: O11y - Create config
+  ansible.builtin.template:
     src: "{{ item.src }}"
     dest: "/opt/a-marsh/observability/{{ item.path | regex_replace('\\.j2$', '') }}"
     owner: "am-helper"
     group: "am-helper"
     mode: "0644"
-  register: set_docker_config
-  with_filetree: "templates/"
+  register: o11y_set_docker_config
+  with_community.general.filetree: "templates/"
   when: item.state == "file"
 
-- name: o11y - Create systemd service
-  template:
+- name: O11y - Create systemd service
+  ansible.builtin.template:
     src: "observability.service"
     dest: "/etc/systemd/system/observability.service"
     owner: "am-helper"
     group: "am-helper"
     mode: "0644"
-  register: set_systemd_config
+  register: o11y_set_systemd_config
 
-- name: o11y - Restart systemd service if changed
-  systemd:
+- name: O11y - Restart systemd service if changed
+  ansible.builtin.systemd:
     name: "observability.service"
     daemon-reload: true
     state: restarted
     enabled: true
-  ignore_errors: true
-  when: set_docker_config.changed or set_systemd_config.changed
+  when:
+    - ansible_facts['virtualization_type'] | default('') not in ['docker', 'lxc', 'podman', 'container']
+    - o11y_set_docker_config.changed or o11y_set_systemd_config.changed
