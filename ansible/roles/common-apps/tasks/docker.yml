@@ -34,6 +34,7 @@
 
 - name: Docker - Add the repository to Apt sources
   ansible.builtin.apt_repository:
+    # noqa yaml[line-length]
     repo: "deb [arch={{ docker_dpkg_arch.stdout }} signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu {{ ansible_facts['distribution_release'] }} stable"
     state: present
     filename: docker
