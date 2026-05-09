@@ -7,4 +7,4 @@
 - name: Hostname - Set hostname
   ansible.builtin.hostname:
     name: "{{ hostname }}"
-  ignore_errors: true
+  when: ansible_virtualization_type | default('') not in ['docker', 'lxc', 'podman', 'container']

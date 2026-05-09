@@ -59,5 +59,4 @@
     daemon-reload: true
     state: restarted
     enabled: true
-  ignore_errors: true
   when: minecraft_set_game_config.changed or minecraft_set_systemd_config.changed
