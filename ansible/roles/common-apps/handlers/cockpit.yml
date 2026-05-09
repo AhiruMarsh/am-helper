@@ -1,0 +1,12 @@
+---
+- name: Cockpit - Apply network dummy config
+  ansible.builtin.command: "nmcli con add type dummy con-name fake ifname fake0 ip4 1.2.3.4/24 gw4 1.2.3.1"
+  register: apply_nw_conf
+  failed_when: apply_nw_conf.rc not in [0, 1]
+  changed_when: apply_nw_conf.rc == 0
+
+- name: Cockpit - Set systemd service
+  ansible.builtin.systemd:
+    name: "cockpit.socket"
+    state: started
+    enabled: true

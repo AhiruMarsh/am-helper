@@ -22,16 +22,7 @@
   become: true
   become_user: "root"
   ignore_errors: true
-  register: clone_git
-
-- name: Am-helper - Copy config
-  ansible.builtin.copy:
-    src: "{{ playbook_dir }}/host_vars/localhost"
-    dest: "/opt/a-marsh/am-helper/ansible/host_vars/localhost"
-    owner: "root"
-    group: "root"
-    mode: "0644"
-  when: clone_git.changed
+  notify: "Am-helper - Copy config"
 
 - name: Am-helper - Set systemd service
   ansible.builtin.copy:
@@ -40,18 +31,7 @@
     owner: "root"
     group: "root"
     mode: "0644"
-  register: set_config
   with_items:
     - "am-helper.service"
     - "am-helper.timer"
-
-- name: Am-helper - Reload systemd service if changed
-  ansible.builtin.systemd:
-    name: "{{ item }}"
-    daemon-reload: true
-    state: restarted
-    enabled: true
-  with_items:
-    - "am-helper.service"
-    - "am-helper.timer"
-  when: set_config.changed
+  notify: "Am-helper - Reload systemd service"

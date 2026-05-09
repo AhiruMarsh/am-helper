@@ -50,11 +50,4 @@
       - docker-compose-plugin
     update_cache: true
     state: present
-  register: install_docker
-
-- name: Docker - Set systemd service
-  ansible.builtin.systemd:
-    name: docker
-    state: started
-    enabled: true
-  when: install_docker.changed
+  notify: "Docker - Set systemd service"

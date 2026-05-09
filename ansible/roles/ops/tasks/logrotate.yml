@@ -14,7 +14,7 @@
     group: "root"
     mode: "0644"
     validate: logrotate -d %s
-  register: ops_set_config
+  notify: "Logrotate_ops - Restart systemd"
 
 - name: Logrotate_ops - Set config for rpx
   ansible.builtin.template:
@@ -25,9 +25,3 @@
     mode: "0644"
     validate: logrotate -d %s
   when: (rpx_cloudflared_token is defined) and (rpx_client_secret_token is defined)
-
-- name: Logrotate_ops - Restart systemd if changed
-  ansible.builtin.systemd:
-    name: logrotate
-    state: restarted
-  when: ops_set_config.changed
