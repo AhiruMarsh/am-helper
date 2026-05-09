@@ -59,4 +59,6 @@
     daemon-reload: true
     state: restarted
     enabled: true
-  when: minecraft_set_game_config.changed or minecraft_set_systemd_config.changed
+  when:
+    - ansible_facts['virtualization_type'] | default('') not in ['docker', 'lxc', 'podman', 'container']
+    - minecraft_set_game_config.changed or minecraft_set_systemd_config.changed

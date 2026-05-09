@@ -44,4 +44,6 @@
     daemon-reload: true
     state: restarted
     enabled: true
-  when: nginx_set_docker_config.changed or nginx_set_systemd_config.changed
+  when:
+    - ansible_facts['virtualization_type'] | default('') not in ['docker', 'lxc', 'podman', 'container']
+    - nginx_set_docker_config.changed or nginx_set_systemd_config.changed

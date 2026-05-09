@@ -39,4 +39,6 @@
     daemon-reload: true
     state: restarted
     enabled: true
-  when: palworld_set_game_config.changed or palworld_set_systemd_config.changed
+  when:
+    - ansible_facts['virtualization_type'] | default('') not in ['docker', 'lxc', 'podman', 'container']
+    - palworld_set_game_config.changed or palworld_set_systemd_config.changed

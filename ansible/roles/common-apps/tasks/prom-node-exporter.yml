@@ -32,4 +32,6 @@
     daemon-reload: true
     state: restarted
     enabled: true
-  when: set_docker_config.changed or set_systemd_config.changed
+  when:
+    - ansible_facts['virtualization_type'] | default('') not in ['docker', 'lxc', 'podman', 'container']
+    - set_docker_config.changed or set_systemd_config.changed
