@@ -15,7 +15,7 @@
     owner: "am-helper"
     group: "am-helper"
     mode: "0755"
-  with_filetree: "templates/"
+  with_community.general.filetree: "templates/"
   when: item.state == "directory"
 
 - name: Nginx - Create config
@@ -26,7 +26,7 @@
     group: "am-helper"
     mode: "0644"
   register: nginx_set_docker_config
-  with_filetree: "templates/"
+  with_community.general.filetree: "templates/"
   when: item.state == "file"
 
 - name: Nginx - Create systemd service
