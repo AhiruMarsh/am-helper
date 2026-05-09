@@ -1,6 +1,0 @@
----
-- name: Docker - Set systemd service
-  ansible.builtin.systemd:
-    name: docker
-    state: started
-    enabled: true

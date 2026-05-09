@@ -50,4 +50,10 @@
       - docker-compose-plugin
     update_cache: true
     state: present
-  notify: "Docker - Set systemd service"
+  when: ansible_facts['distribution'] == "Ubuntu"
+
+- name: Docker - Set systemd service
+  ansible.builtin.systemd:
+    name: docker
+    state: started
+    enabled: true

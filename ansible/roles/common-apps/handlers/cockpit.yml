@@ -4,9 +4,3 @@
   register: apply_nw_conf
   failed_when: apply_nw_conf.rc not in [0, 1]
   changed_when: apply_nw_conf.rc == 0
-
-- name: Cockpit - Set systemd service
-  ansible.builtin.systemd:
-    name: "cockpit.socket"
-    state: started
-    enabled: true

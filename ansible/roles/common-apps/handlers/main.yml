@@ -3,5 +3,3 @@
   ansible.builtin.import_tasks: am-helper.yml
 - name: Common-apps - cockpit
   ansible.builtin.import_tasks: cockpit.yml
-- name: Common-apps - docker
-  ansible.builtin.import_tasks: docker.yml

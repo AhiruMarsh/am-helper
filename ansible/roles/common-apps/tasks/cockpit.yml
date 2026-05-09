@@ -15,7 +15,6 @@
     owner: "root"
     group: "root"
     mode: "0644"
-  notify: "Cockpit - Set systemd service"
 
 - name: Cockpit - Set network dummy config
   ansible.builtin.template:
@@ -25,3 +24,9 @@
     group: "root"
     mode: "0644"
   notify: "Cockpit - Apply network dummy config"
+
+- name: Cockpit - Set systemd service
+  ansible.builtin.systemd:
+    name: "cockpit.socket"
+    state: started
+    enabled: true
