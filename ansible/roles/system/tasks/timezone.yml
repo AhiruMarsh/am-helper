@@ -11,4 +11,5 @@
 
 - name: Timezone - Change timezone if changed
   ansible.builtin.command: timedatectl set-timezone Asia/Tokyo
+  changed_when: true
   when: "'Asia/Tokyo' not in system_current_timezone.stdout"
