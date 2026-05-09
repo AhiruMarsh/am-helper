@@ -1,23 +1,23 @@
 # Linux logrotate oprations
 ---
-- name: logrotate - Install logrotate
-  apt:
+- name: Logrotate - Install logrotate
+  ansible.builtin.apt:
     name: logrotate
     state: present
   when: ansible_facts['distribution'] == "Ubuntu"
 
-- name: logrotate_ops - Set config
-  template:
+- name: Logrotate_ops - Set config
+  ansible.builtin.template:
     src: "logrotate/logrotate.conf"
     dest: "/etc/logrotate.conf"
     owner: "root"
     group: "root"
     mode: "0644"
     validate: logrotate -d %s
-  register: set_config
+  notify: "Logrotate_ops - Restart systemd"
 
-- name: logrotate_ops - Set config for rpx
-  template:
+- name: Logrotate_ops - Set config for rpx
+  ansible.builtin.template:
     src: "logrotate/logrotate.d/a-marsh_rpx"
     dest: "/etc/logrotate.d/a-marsh_rpx"
     owner: "root"
@@ -25,9 +25,3 @@
     mode: "0644"
     validate: logrotate -d %s
   when: (rpx_cloudflared_token is defined) and (rpx_client_secret_token is defined)
-
-- name: logrotate_ops - Restart systemd if changed
-  systemd:
-    name: logrotate
-    state: restarted
-  when: set_config.changed

@@ -1,13 +1,13 @@
 # apt settings
 ---
-- name: Install unattended-upgrades
+- name: Apt - Install unattended-upgrades
   ansible.builtin.apt:
     name: unattended-upgrades
     state: present
   become: true
   when: ansible_facts['distribution'] == "Ubuntu"
 
-- name: Set config unattended-upgrades
+- name: Apt - Set config unattended-upgrades
   ansible.builtin.template:
     src: "apt/100-generated-ansible.conf"
     dest: "/etc/apt/apt.conf.d/100-generated-ansible.conf"
@@ -15,13 +15,5 @@
     group: "root"
     mode: "0644"
   become: true
-  register: set_config
   when: ansible_facts['distribution'] == "Ubuntu"
-
-- name: Reload service unattended-upgrades
-  ansible.builtin.systemd:
-    name: "unattended-upgrades.service"
-    enabled: true
-    state: "restarted"
-  become: true
-  when: set_config.changed
+  notify: "Apt - Reload service unattended-upgrades"

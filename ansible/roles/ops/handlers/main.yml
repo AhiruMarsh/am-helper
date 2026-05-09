@@ -1,0 +1,5 @@
+---
+- name: Logrotate_ops - Restart systemd
+  ansible.builtin.systemd:
+    name: logrotate
+    state: restarted

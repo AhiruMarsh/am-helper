@@ -1,0 +1,7 @@
+---
+- name: Apt - Reload service unattended-upgrades
+  ansible.builtin.systemd:
+    name: "unattended-upgrades.service"
+    enabled: true
+    state: "restarted"
+  become: true

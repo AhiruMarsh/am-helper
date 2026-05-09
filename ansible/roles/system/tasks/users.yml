@@ -9,8 +9,8 @@
 #       password: hashed
 #       groups:   string
 ---
-- name: users - Create oprational user
-  user:
+- name: Users - Create oprational user
+  ansible.builtin.user:
     name: "am-helper"
     comment: "am-helper"
     uid: "2200"
@@ -18,8 +18,8 @@
     groups: "sudo"
     shell: "/bin/bash"
 
-- name: users - Create optional user
-  user:
+- name: Users - Create optional user
+  ansible.builtin.user:
     name: "{{ item.name }}"
     comment: "{{ item.name }}"
     uid: "{{ item.uid }}"

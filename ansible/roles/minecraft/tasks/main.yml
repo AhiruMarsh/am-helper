@@ -15,49 +15,48 @@
 #    mc_discordsrv_channel_console_id: string
 #    mc_cloudflared_token: string
 ---
-- name: minecraft - Create directory
-  file:
+- name: Minecraft - Create directory
+  ansible.builtin.file:
     path: "/opt/a-marsh/minecraft"
     state: directory
     owner: "am-helper"
     group: "am-helper"
     mode: "0755"
 
-- name: minecraft - Create config directory
-  file:
+- name: Minecraft - Create config directory
+  ansible.builtin.file:
     path: "/opt/a-marsh/minecraft/{{ item.path }}"
     state: directory
     owner: "am-helper"
     group: "am-helper"
     mode: "0755"
-  with_filetree: "templates/"
+  with_community.general.filetree: "templates/"
   when: item.state == "directory"
 
-- name: minecraft - Create config
-  template:
+- name: Minecraft - Create config
+  ansible.builtin.template:
     src: "{{ item.src }}"
     dest: "/opt/a-marsh/minecraft/{{ item.path | regex_replace('\\.j2$', '') }}"
     owner: "am-helper"
     group: "am-helper"
     mode: "0644"
-  register: set_game_config
-  with_filetree: "templates/"
+  register: minecraft_set_game_config
+  with_community.general.filetree: "templates/"
   when: item.state == "file"
 
-- name: minecraft - Create systemd service
-  template:
+- name: Minecraft - Create systemd service
+  ansible.builtin.template:
     src: "minecraft.service"
     dest: "/etc/systemd/system/minecraft.service"
     owner: "am-helper"
     group: "am-helper"
     mode: "0644"
-  register: set_systemd_config
+  register: minecraft_set_systemd_config
 
-- name: minecraft - Restart systemd service if changed
-  systemd:
+- name: Minecraft - Restart systemd service if changed
+  ansible.builtin.systemd:
     name: "minecraft.service"
     daemon-reload: true
     state: restarted
     enabled: true
-  ignore_errors: true
-  when: set_game_config.changed or set_systemd_config.changed
+  when: minecraft_set_game_config.changed or minecraft_set_systemd_config.changed

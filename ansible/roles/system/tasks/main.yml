@@ -1,7 +1,13 @@
 ---
-- import_tasks: hostname.yml
-- import_tasks: timezone.yml
-- import_tasks: sshd.yml
-- import_tasks: sudo.yml
-- import_tasks: users.yml
-- import_tasks: apt.yml
+- name: System - hostname
+  ansible.builtin.import_tasks: hostname.yml
+- name: System - timezone
+  ansible.builtin.import_tasks: timezone.yml
+- name: System - sshd
+  ansible.builtin.import_tasks: sshd.yml
+- name: System - sudo
+  ansible.builtin.import_tasks: sudo.yml
+- name: System - users
+  ansible.builtin.import_tasks: users.yml
+- name: System - apt
+  ansible.builtin.import_tasks: apt.yml

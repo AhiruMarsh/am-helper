@@ -1,48 +1,47 @@
 # app Settings (nginx)
 ---
-- name: nginx - Create directory
-  file:
+- name: Nginx - Create directory
+  ansible.builtin.file:
     path: "/opt/a-marsh/nginx"
     state: directory
     owner: "am-helper"
     group: "am-helper"
     mode: "0755"
 
-- name: nginx - Create config directory
-  file:
+- name: Nginx - Create config directory
+  ansible.builtin.file:
     path: "/opt/a-marsh/nginx/{{ item.path }}"
     state: directory
     owner: "am-helper"
     group: "am-helper"
     mode: "0755"
-  with_filetree: "templates/"
+  with_community.general.filetree: "templates/"
   when: item.state == "directory"
 
-- name: nginx - Create config
-  template:
+- name: Nginx - Create config
+  ansible.builtin.template:
     src: "{{ item.src }}"
     dest: "/opt/a-marsh/nginx/{{ item.path | regex_replace('\\.j2$', '') }}"
     owner: "am-helper"
     group: "am-helper"
     mode: "0644"
-  register: set_docker_config
-  with_filetree: "templates/"
+  register: nginx_set_docker_config
+  with_community.general.filetree: "templates/"
   when: item.state == "file"
 
-- name: nginx - Create systemd service
-  template:
+- name: Nginx - Create systemd service
+  ansible.builtin.template:
     src: "nginx.service"
     dest: "/etc/systemd/system/nginx.service"
     owner: "am-helper"
     group: "am-helper"
     mode: "0644"
-  register: set_systemd_config
+  register: nginx_set_systemd_config
 
-- name: nginx - Restart systemd service if changed
-  systemd:
+- name: Nginx - Restart systemd service if changed
+  ansible.builtin.systemd:
     name: "nginx.service"
     daemon-reload: true
     state: restarted
     enabled: true
-  ignore_errors: true
-  when: set_docker_config.changed or set_systemd_config.changed
+  when: nginx_set_docker_config.changed or nginx_set_systemd_config.changed
