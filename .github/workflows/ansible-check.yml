@@ -1,9 +1,6 @@
-name: Ansible CI
+name: Ansible CI (Check)
 
 on:
-  push:
-    branches:
-      - develop
   pull_request:
     branches:
       - develop
@@ -19,7 +16,6 @@ env:
 jobs:
   static-check:
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request'
     permissions:
       contents: read
       packages: read
@@ -51,41 +47,5 @@ jobs:
           cacheFrom: ${{ env.DEVCONTAINER_IMAGE }}
           push: never
           runCmd: |
-            # ansible-lint ansible/main.yml
+            ansible-lint ansible/main.yml
             ansible-playbook ansible/main.yml --syntax-check
-
-  deploy:
-    runs-on: ubuntu-latest
-    if: github.event_name == 'push'
-    permissions:
-      contents: read
-      packages: write
-
-    steps:
-      - uses: actions/checkout@v6
-
-      - name: Lowercase image name
-        run: echo "DEVCONTAINER_IMAGE=${DEVCONTAINER_IMAGE,,}" >> $GITHUB_ENV
-
-      - name: Create host_vars for localhost
-        run: |
-          cat > ansible/host_vars/localhost <<'EOF'
-          hostname: ci
-          platform_name: ci
-          EOF
-
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@v4
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Run Ansible playbook in devcontainer
-        uses: devcontainers/ci@v0.3
-        with:
-          imageName: ${{ env.DEVCONTAINER_IMAGE }}
-          cacheFrom: ${{ env.DEVCONTAINER_IMAGE }}
-          push: always
-          runCmd: |
-            ansible-playbook ansible/main.yml --become
