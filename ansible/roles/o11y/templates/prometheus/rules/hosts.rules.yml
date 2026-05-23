@@ -77,6 +77,16 @@ groups:
           title: "{% raw %}{{ $labels.instance }}{% endraw %}"
           description: "{% raw %}Clock not synchronising.\nCurrent is {{ $value }}{% endraw %}"
 
+      # am-helper
+      - alert: Am-helperStatus
+        expr: node_systemd_unit_state{name="am-helper.service",state="failed"} == 1
+        for: 0m
+        labels:
+          severity: critical
+        annotations:
+          title: "{% raw %}{{ $labels.instance }}{% endraw %}"
+          description: "{% raw %}Failed to run {{ $labels.name }}.{% endraw %}"
+
       # App
       - alert: AppSystemdStatus
         expr: node_systemd_unit_state{project="obs",name="observability.service",state="active"} == 0
