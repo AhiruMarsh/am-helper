@@ -23,7 +23,7 @@ services:
       - app
 
   cloudflared:
-    image: cloudflare/cloudflared:2026.3.0
+    image: cloudflare/cloudflared:2026.5.0
     volumes:
       - /etc/timezone:/etc/timezone:ro
     command: tunnel run --token "{{ rpx_cloudflared_token }}"
