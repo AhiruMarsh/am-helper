@@ -63,7 +63,7 @@ services:
     restart: always
 
   db:
-    image: mariadb:12.2.2
+    image: mariadb:12.3.2
     environment:
       MYSQL_ROOT_PASSWORD: "ahirumarsh"
       MYSQL_USER: "mc"
