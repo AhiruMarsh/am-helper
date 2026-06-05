@@ -1,6 +1,6 @@
 services:
   prometheus:
-    image: prom/prometheus:v3.11.3
+    image: prom/prometheus:v3.12.0
     command:
       - --config.file=/etc/prometheus/prometheus.yml
       - --web.external-url=https://prometheus.a-marsh.net
@@ -21,7 +21,7 @@ services:
     restart: always
 
   cloudflared:
-    image: cloudflare/cloudflared:2026.5.1
+    image: cloudflare/cloudflared:2026.5.2
     volumes:
       - /etc/timezone:/etc/timezone:ro
     command: tunnel run --token "{{ o11y_cloudflared_token }}"
