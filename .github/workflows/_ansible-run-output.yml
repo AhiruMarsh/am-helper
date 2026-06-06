@@ -40,8 +40,8 @@ jobs:
       - name: Set image tag
         id: set_image_tag
         env:
-          HEAD_BRANCH: ${{ github.head_ref }}
-        run: echo "devcontainer_image_tag=$(echo "${HEAD_BRANCH}" | sed 's/[^a-zA-Z0-9._-]/-/g')" >> $GITHUB_OUTPUT
+          TARGET_BRANCH: ${{ github.ref }}
+        run: echo "devcontainer_image_tag=$(echo "${TARGET_BRANCH}" | sed 's/[^a-zA-Z0-9._-]/-/g')" >> $GITHUB_OUTPUT
 
       - name: Create host_vars for localhost
         run: |

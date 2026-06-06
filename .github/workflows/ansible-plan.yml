@@ -25,22 +25,5 @@ jobs:
       run-cmd: |
         set -o pipefail
 
-        # Backup PR branch ansible directory (includes CI host_vars)
-        cp -r ansible /tmp/pr-ansible
-
-        # Restore base branch ansible files to establish baseline state
-        git fetch origin "${BASE_BRANCH}"
-        git checkout "origin/${BASE_BRANCH}" -- ansible
-
-        # Recreate CI host_vars (not tracked in git)
-        printf 'hostname: ci\nplatform_name: ci\n' > ansible/host_vars/localhost
-
-        # Apply base branch playbook to set up baseline system state
-        ansible-playbook ansible/main.yml --become
-
-        # Restore PR branch ansible files
-        rm -rf ansible
-        cp -r /tmp/pr-ansible ansible
-
         # Run plan: show what would change from base branch state to PR state
         ansible-playbook ansible/main.yml --become --check --diff 2>&1 | tee ansible-plan.txt
