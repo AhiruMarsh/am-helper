@@ -28,7 +28,9 @@ RUN apt-get update \
   && cp /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
 
 RUN apt-get update \
-  && apt-get install -y --no-install-recommends ansible \
+  && apt-get install -y --no-install-recommends \
+      ansible \
+      python3-apt \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
 
