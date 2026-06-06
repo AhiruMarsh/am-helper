@@ -16,6 +16,7 @@ env:
 jobs:
   static-check:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     permissions:
       contents: read
       packages: read
@@ -23,8 +24,12 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
-      - name: Lowercase image name
-        run: echo "DEVCONTAINER_IMAGE=${DEVCONTAINER_IMAGE,,}" >> $GITHUB_ENV
+      - name: Set image tag
+        env:
+          HEAD_BRANCH: ${{ github.head_ref }}
+        run: |
+          IMAGE_TAG=$(echo "${HEAD_BRANCH}" | sed 's/[^a-zA-Z0-9._-]/-/g')
+          echo "DEVCONTAINER_IMAGE=${DEVCONTAINER_IMAGE,,}:${IMAGE_TAG}" >> $GITHUB_ENV
 
       - name: Create host_vars for localhost
         run: |
