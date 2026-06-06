@@ -12,7 +12,7 @@ concurrency:
 
 jobs:
   check:
-    uses: ./.github/workflows/common/_ansible-ci.yml
+    uses: ./.github/workflows/_ansible-run-output.yml
     with:
       comment-heading: Ansible Check
       output-file: ansible-check.txt
