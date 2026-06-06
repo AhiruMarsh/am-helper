@@ -16,33 +16,24 @@ permissions:
   pull-requests: write
 
 jobs:
-  check:
+  check-lint:
     uses: ./.github/workflows/_ansible-run-output.yml
     with:
-      comment-heading: Ansible Check
+      comment-heading: Ansible Check (Lint)
+      output-file: ansible-lint.txt
+      run-cmd: ansible-lint ansible/main.yml 2>&1 | tee ansible-lint.txt
+
+  check-syntax:
+    uses: ./.github/workflows/_ansible-run-output.yml
+    with:
+      comment-heading: Ansible Check (Syntax)
       output-file: ansible-check.txt
-      run-cmd: |
-        overall=0
+      run-cmd: ansible-playbook ansible/main.yml --syntax-check 2>&1 | tee ansible-check.txt
 
-        echo "=== ansible-lint ===" | tee ansible-check.txt
-        ansible-lint ansible/main.yml 2>&1 | tee -a ansible-check.txt
-        lint_exit=${PIPESTATUS[0]}
-
-        echo "" >> ansible-check.txt
-        echo "=== ansible-playbook --syntax-check ===" >> ansible-check.txt
-        ansible-playbook ansible/main.yml --syntax-check 2>&1 | tee -a ansible-check.txt
-        syntax_exit=${PIPESTATUS[0]}
-
-        [ "$lint_exit" -eq 0 ] && [ "$syntax_exit" -eq 0 ] || exit 1
-
-  plan:
+  check-plan:
     uses: ./.github/workflows/_ansible-run-output.yml
     with:
       comment-heading: Ansible Plan
       output-file: ansible-plan.txt
       fetch-depth: 0
-      run-cmd: |
-        set -o pipefail
-
-        # Run plan: show what would change from base branch state to PR state
-        ansible-playbook ansible/main.yml --become --check --diff 2>&1 | tee ansible-plan.txt
+      run-cmd: ansible-playbook ansible/main.yml --become --check --diff 2>&1 | tee ansible-plan.txt
