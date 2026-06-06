@@ -1,0 +1,141 @@
+name: Ansible CI (Plan)
+
+on:
+  pull_request:
+    branches:
+      - develop
+      - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  DEVCONTAINER_IMAGE: ghcr.io/${{ github.repository }}/devcontainer
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      packages: read
+      pull-requests: write
+
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Set image tag
+        env:
+          HEAD_BRANCH: ${{ github.head_ref }}
+        run: |
+          IMAGE_TAG=$(echo "${HEAD_BRANCH}" | sed 's/[^a-zA-Z0-9._-]/-/g')
+          echo "DEVCONTAINER_IMAGE=${DEVCONTAINER_IMAGE,,}:${IMAGE_TAG}" >> $GITHUB_ENV
+
+      - name: Create host_vars for localhost
+        run: |
+          cat > ansible/host_vars/localhost <<'EOF'
+          hostname: ci
+          platform_name: ci
+          EOF
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Run Ansible Plan
+        id: run-plan
+        continue-on-error: true
+        uses: devcontainers/ci@v0.3
+        env:
+          BASE_BRANCH: ${{ github.base_ref }}
+        with:
+          imageName: ${{ env.DEVCONTAINER_IMAGE }}
+          cacheFrom: ${{ env.DEVCONTAINER_IMAGE }}
+          push: never
+          runCmd: |
+            set -o pipefail
+
+            # Backup PR branch ansible directory (includes CI host_vars)
+            cp -r ansible /tmp/pr-ansible
+
+            # Restore base branch ansible files to establish baseline state
+            git fetch origin "${BASE_BRANCH}"
+            git checkout "origin/${BASE_BRANCH}" -- ansible
+
+            # Recreate CI host_vars (not tracked in git)
+            printf 'hostname: ci\nplatform_name: ci\n' > ansible/host_vars/localhost
+
+            # Apply base branch playbook to set up baseline system state
+            ansible-playbook ansible/main.yml --become
+
+            # Restore PR branch ansible files
+            rm -rf ansible
+            cp -r /tmp/pr-ansible ansible
+
+            # Run plan: show what would change from base branch state to PR state
+            ansible-playbook ansible/main.yml --become --check --diff 2>&1 | tee ansible-plan.txt
+
+      - name: Post plan as PR comment
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            let plan = '';
+            try {
+              plan = fs.readFileSync('ansible-plan.txt', 'utf8');
+            } catch (e) {
+              plan = '(No plan output available)';
+            }
+
+            const outcome = '${{ steps.run-plan.outcome }}';
+            const status = outcome === 'success' ? '✅ Success' : '❌ Failed';
+            const MAX_LEN = 60000;
+            const body_plan = plan.length > MAX_LEN
+              ? plan.slice(0, MAX_LEN) + '\n...(output truncated)'
+              : plan;
+
+            const body = [
+              `## Ansible Plan — ${status}`,
+              '',
+              '<details>',
+              '<summary>Show Plan Output</summary>',
+              '',
+              '```',
+              body_plan,
+              '```',
+              '',
+              '</details>',
+            ].join('\n');
+
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
+
+            const existing = comments.find(c =>
+              c.user.type === 'Bot' && c.body.includes('## Ansible Plan')
+            );
+
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: existing.id,
+                body,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body,
+              });
+            }
