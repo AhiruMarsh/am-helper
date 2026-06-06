@@ -68,7 +68,9 @@ jobs:
           cacheFrom: ${{ env.DEVCONTAINER_IMAGE_NAME }}
           imageTag: ${{ steps.set_image_tag.outputs.devcontainer_image_tag }}
           push: never
-          runCmd: ${{ inputs.run-cmd }}
+          runCmd: |
+            set -o pipefail
+            ${{ inputs.run-cmd }}
 
       - name: Post result as PR comment
         if: always()
