@@ -4,19 +4,17 @@ on:
   push:
     branches:
       - develop
-      - main
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  queue: max
+  cancel-in-progress: true
 
 env:
-  DEVCONTAINER_IMAGE_NAME: ghcr.io/${{ github.repository }}/devcontainer
+  DEVCONTAINER_IMAGE: ghcr.io/${{ github.repository }}/devcontainer
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
     permissions:
       contents: read
       packages: write
@@ -24,14 +22,8 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
-      - name: Convert image name (lowercase)
-        run: echo "DEVCONTAINER_IMAGE_NAME=${DEVCONTAINER_IMAGE_NAME,,}" >> $GITHUB_ENV   
-
-      - name: Set image tag
-        id: set_image_tag
-        env:
-          TARGET_BRANCH: ${{ github.ref_name }}
-        run: echo "devcontainer_image_tag=$(echo "${TARGET_BRANCH}" | sed 's/[^a-zA-Z0-9._-]/-/g')" >> $GITHUB_OUTPUT
+      - name: Lowercase image name
+        run: echo "DEVCONTAINER_IMAGE=${DEVCONTAINER_IMAGE,,}" >> $GITHUB_ENV
 
       - name: Create host_vars for localhost
         run: |
@@ -50,8 +42,8 @@ jobs:
       - name: Run Ansible playbook in devcontainer
         uses: devcontainers/ci@v0.3
         with:
-          imageName: ${{ env.DEVCONTAINER_IMAGE_NAME }}
-          cacheFrom: ${{ env.DEVCONTAINER_IMAGE_NAME }}
-          imageTag: ${{ steps.set_image_tag.outputs.devcontainer_image_tag }}
+          imageName: ${{ env.DEVCONTAINER_IMAGE }}
+          cacheFrom: ${{ env.DEVCONTAINER_IMAGE }}
           push: always
-          runCmd: ansible-playbook ansible/main.yml --become
+          runCmd: |
+            ansible-playbook ansible/main.yml --become
