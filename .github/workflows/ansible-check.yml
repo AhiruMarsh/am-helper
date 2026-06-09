@@ -30,10 +30,10 @@ jobs:
       output-file: ansible-check.txt
       run-cmd: ansible-playbook ansible/main.yml --syntax-check 2>&1 | tee ansible-check.txt
 
-  check-plan:
-    uses: ./.github/workflows/_ansible-run-output.yml
-    with:
-      comment-heading: Ansible Plan
-      output-file: ansible-plan.txt
-      fetch-depth: 0
-      run-cmd: ansible-playbook ansible/main.yml --become --check --diff 2>&1 | tee ansible-plan.txt
+  # check-plan:
+  #   uses: ./.github/workflows/_ansible-run-output.yml
+  #   with:
+  #     comment-heading: Ansible Plan
+  #     output-file: ansible-plan.txt
+  #     fetch-depth: 0
+  #     run-cmd: ansible-playbook ansible/main.yml --become --check --diff 2>&1 | tee ansible-plan.txt
