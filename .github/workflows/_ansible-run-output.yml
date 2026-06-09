@@ -70,7 +70,7 @@ jobs:
           push: never
           runCmd: |
             set -o pipefail
-            apt install -y python3-apt
+            sudo apt install -y python3-apt
             ${{ inputs.run-cmd }}
 
       - name: Post result as PR comment
