@@ -71,10 +71,10 @@ jobs:
           runCmd: |
             set -o pipefail
 
-            apt-get update \
-              && apt-get install -y python3-apt \
-              && apt-get clean \
-              && rm -rf /var/lib/apt/lists/*
+            sudo apt-get update \
+              && sudo apt-get install -y python3-apt \
+              && sudo apt-get clean \
+              && sudo rm -rf /var/lib/apt/lists/*
 
             ${{ inputs.run-cmd }}
 
