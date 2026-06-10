@@ -1,0 +1,137 @@
+name: Ansible CI (Common Framework)
+
+on:
+  workflow_call:
+    inputs:
+      comment-heading:
+        required: true
+        type: string
+      output-file:
+        required: true
+        type: string
+      run-cmd:
+        required: true
+        type: string
+      fetch-depth:
+        required: false
+        type: number
+        default: 1
+
+env:
+  DEVCONTAINER_IMAGE_NAME: ghcr.io/${{ github.repository }}/devcontainer
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      packages: read
+      pull-requests: write
+
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: ${{ inputs.fetch-depth }}
+
+      - name: Convert image name (lowercase)
+        run: echo "DEVCONTAINER_IMAGE_NAME=${DEVCONTAINER_IMAGE_NAME,,}" >> $GITHUB_ENV
+
+      - name: Set image tag
+        id: set_image_tag
+        env:
+          TARGET_BRANCH: ${{ github.base_ref }}
+        run: echo "devcontainer_image_tag=$(echo "${TARGET_BRANCH}" | sed 's/[^a-zA-Z0-9._-]/-/g')" >> $GITHUB_OUTPUT
+
+      - name: Create host_vars for localhost
+        run: |
+          cat > ansible/host_vars/localhost <<'EOF'
+          hostname: ci
+          platform_name: ci
+          EOF
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Run in devcontainer
+        id: run-devcontainer
+        continue-on-error: true
+        uses: devcontainers/ci@v0.3
+        env:
+          BASE_BRANCH: ${{ github.base_ref }}
+        with:
+          imageName: ${{ env.DEVCONTAINER_IMAGE_NAME }}
+          cacheFrom: ${{ env.DEVCONTAINER_IMAGE_NAME }}
+          imageTag: ${{ steps.set_image_tag.outputs.devcontainer_image_tag }}
+          push: never
+          runCmd: |
+            set -o pipefail
+            ${{ inputs.run-cmd }}
+
+      - name: Post result as PR comment
+        if: always()
+        uses: actions/github-script@v9
+        with:
+          script: |
+            const fs = require('fs');
+            let output = '';
+            try {
+              output = fs.readFileSync('${{ inputs.output-file }}', 'utf8');
+            } catch (e) {
+              output = '(No output available)';
+            }
+
+            const outcome = '${{ steps.run-devcontainer.outcome }}';
+            const status = outcome === 'success' ? '✅ Success' : '❌ Failed';
+            const MAX_LEN = 60000;
+            const bodyOutput = output.length > MAX_LEN
+              ? output.slice(0, MAX_LEN) + '\n...(output truncated)'
+              : output;
+
+            const heading = '${{ inputs.comment-heading }}';
+            const body = [
+              `## ${heading} — ${status}`,
+              '',
+              '<details>',
+              `<summary>Show ${heading} Output</summary>`,
+              '',
+              '```',
+              bodyOutput,
+              '```',
+              '',
+              '</details>',
+            ].join('\n');
+
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
+
+            const existing = comments.find(c =>
+              c.user.type === 'Bot' && c.body.includes(`## ${heading}`)
+            );
+
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: existing.id,
+                body,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body,
+              });
+            }
+
+            if (outcome !== 'success') {
+              core.setFailed(`${heading} failed`);
+            }
