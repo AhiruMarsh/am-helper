@@ -1,36 +1,49 @@
 version: 2
 updates:
+  - package-ecosystem: devcontainers
+    directory: /
+    target-branch: develop
+    schedule:
+      interval: weekly
+
   - package-ecosystem: github-actions
     directory: /
+    target-branch: develop
     schedule:
       interval: weekly
 
   - package-ecosystem: docker-compose
     directory: /ansible/roles/minecraft/templates
+    target-branch: develop
     schedule:
       interval: weekly
 
   - package-ecosystem: docker-compose
     directory: /ansible/roles/palworld/templates
+    target-branch: develop
     schedule:
       interval: weekly
 
   - package-ecosystem: docker-compose
     directory: /ansible/roles/uptime-kuma/templates
+    target-branch: develop
     schedule:
       interval: weekly
 
   - package-ecosystem: docker-compose
     directory: /ansible/roles/common-apps/templates/prom-node-exporter
+    target-branch: develop
     schedule:
       interval: weekly
 
   - package-ecosystem: docker-compose
     directory: /ansible/roles/nginx/templates
+    target-branch: develop
     schedule:
       interval: weekly
 
   - package-ecosystem: docker-compose
     directory: /ansible/roles/o11y/templates
+    target-branch: develop
     schedule:
       interval: weekly
