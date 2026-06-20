@@ -35,13 +35,8 @@
 - name: Docker - Add the repository to Apt sources
   ansible.builtin.copy:
     content: |
-      Types: deb
-      URIs: https://download.docker.com/linux/ubuntu
-      Suites: {{ ansible_facts['distribution_release'] }}
-      Components: stable
-      Architectures: {{ docker_dpkg_arch.stdout }}
-      Signed-By: /etc/apt/keyrings/docker.asc
-    dest: /etc/apt/sources.list.d/docker.sources
+      deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu noble stable
+    dest: /etc/apt/sources.list.d/docker.list
     owner: root
     group: root
     mode: "0644"
