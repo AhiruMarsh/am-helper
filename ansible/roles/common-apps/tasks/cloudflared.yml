@@ -25,7 +25,7 @@
 - name: Cloudflared - Add the repository to Apt sources
   ansible.builtin.copy:
     content: |
-      deb [signed-by=/usr/share/keyrings/cloudflare-main.gpg] https://pkg.cloudflare.com/cloudflared jammy main
+      deb [signed-by=/usr/share/keyrings/cloudflare-main.gpg] https://pkg.cloudflare.com/cloudflared {{ ansible_facts['distribution_release'] }} main
     dest: /etc/apt/sources.list.d/cloudflared.list
     owner: root
     group: root
