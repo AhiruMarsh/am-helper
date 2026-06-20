@@ -23,10 +23,17 @@
   when: ansible_facts['distribution'] == "Ubuntu"
 
 - name: Cloudflared - Add the repository to Apt sources
-  ansible.builtin.apt_repository:
-    repo: "deb [signed-by=/usr/share/keyrings/cloudflare-main.gpg] https://pkg.cloudflare.com/cloudflared jammy main"
-    state: present
-    filename: cloudflared
+  ansible.builtin.copy:
+    content: |
+      Types: deb
+      URIs: https://pkg.cloudflare.com/cloudflared
+      Suites: jammy
+      Components: main
+      Signed-By: /usr/share/keyrings/cloudflare-main.gpg
+    dest: /etc/apt/sources.list.d/cloudflared.sources
+    owner: root
+    group: root
+    mode: "0644"
   when: ansible_facts['distribution'] == "Ubuntu"
 
 - name: Cloudflared - Install cloudflared
