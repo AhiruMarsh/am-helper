@@ -30,10 +30,25 @@ jobs:
       output-file: ansible-check.txt
       run-cmd: ansible-playbook ansible/main.yml --syntax-check 2>&1 | tee ansible-check.txt
 
-  # check-plan:
-  #   uses: ./.github/workflows/_ansible-run-output.yml
-  #   with:
-  #     comment-heading: Ansible Plan
-  #     output-file: ansible-plan.txt
-  #     fetch-depth: 0
-  #     run-cmd: ansible-playbook ansible/main.yml --become --check --diff 2>&1 | tee ansible-plan.txt
+  check-plan:
+    uses: ./.github/workflows/_ansible-run-output.yml
+    with:
+      comment-heading: Ansible Plan
+      output-file: ansible-plan.txt
+      fetch-depth: 0
+      run-cmd: |
+        # Backup PR branch ansible directory (includes CI host_vars)
+        cp -r ansible /tmp/pr-ansible
+
+        # Restore base branch ansible files to establish baseline state
+        git fetch origin "${{ github.base_ref }}"
+        git checkout "origin/${{ github.base_ref }}" -- ansible
+
+        # Apply base branch playbook to set up baseline system state
+        ansible-playbook ansible/main.yml --become
+
+        # Restore PR branch ansible files
+        rm -rf ansible && cp -r /tmp/pr-ansible ansible
+
+        # Run plan: show what would change from base branch state to PR state
+        ansible-playbook ansible/main.yml --become --diff 2>&1 | tee ansible-plan.txt
