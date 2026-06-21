@@ -93,11 +93,14 @@ jobs:
               : output;
 
             const heading = '${{ inputs.comment-heading }}';
+            const hash = context.sha;
+            const hash_url = `https://github.com/${context.repo.owner}/${context.repo.repo}/commit/${hash}`;
             const body = [
               `## ${heading} — ${status}`,
+              `Latest Commit: [\`${hash}\`](${hash_url})`,
               '',
               '<details>',
-              `<summary>Show ${heading} Output</summary>`,
+              `<summary>View output</summary>`,
               '',
               '```',
               bodyOutput,
