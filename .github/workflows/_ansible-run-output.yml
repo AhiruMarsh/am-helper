@@ -23,7 +23,7 @@ env:
 jobs:
   run:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 10
     permissions:
       contents: read
       packages: read
@@ -64,7 +64,6 @@ jobs:
         env:
           BASE_BRANCH: ${{ github.base_ref }}
         with:
-          imageName: ${{ env.DEVCONTAINER_IMAGE_NAME }}
           cacheFrom: ${{ env.DEVCONTAINER_IMAGE_NAME }}
           imageTag: ${{ steps.set_image_tag.outputs.devcontainer_image_tag }}
           push: never
