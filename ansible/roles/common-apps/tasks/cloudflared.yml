@@ -13,19 +13,20 @@
     mode: "0755"
   when: ansible_facts['distribution'] == "Ubuntu"
 
-- name: Cloudflared - Add Docker's official GPG key
+- name: Cloudflared - Add GPG key
   ansible.builtin.get_url:
     url: https://pkg.cloudflare.com/cloudflare-main.gpg
-    dest: /usr/share/keyrings/cloudflare-main.gpg
+    dest: /etc/apt/keyrings/cloudflare-main.gpg
     owner: "root"
     group: "root"
     mode: "0644"
+  register: cloudflared_gpg_key
   when: ansible_facts['distribution'] == "Ubuntu"
 
 - name: Cloudflared - Add the repository to Apt sources
   ansible.builtin.copy:
     # noqa yaml[line-length]
-    content: "deb [signed-by=/usr/share/keyrings/cloudflare-main.gpg] https://pkg.cloudflare.com/cloudflared {{ ansible_facts['distribution_release'] }} main"
+    content: "deb [signed-by={{ cloudflared_gpg_key.dest }}] https://pkg.cloudflare.com/cloudflared {{ ansible_facts['distribution_release'] }} main"
     dest: /etc/apt/sources.list.d/cloudflared.list
     owner: root
     group: root
