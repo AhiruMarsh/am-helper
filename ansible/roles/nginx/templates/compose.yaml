@@ -1,6 +1,6 @@
 services:
   app:
-    image: nginx:1.31.1
+    image: nginx:1.31.2
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./nginx/conf.d:/etc/nginx/conf.d:ro
