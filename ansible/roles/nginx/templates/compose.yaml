@@ -1,6 +1,6 @@
 services:
   app:
-    image: nginx:1.31.1
+    image: nginx:1.31.2
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./nginx/conf.d:/etc/nginx/conf.d:ro
@@ -23,7 +23,7 @@ services:
       - app
 
   cloudflared:
-    image: cloudflare/cloudflared:2026.6.0
+    image: cloudflare/cloudflared:2026.6.1
     volumes:
       - /etc/timezone:/etc/timezone:ro
     command: tunnel run --token "{{ rpx_cloudflared_token }}"
