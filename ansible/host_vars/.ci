@@ -1,0 +1,40 @@
+hostname: "ci"
+platform_name: "ci"
+
+# common-apps (prom-node-exporter)
+cloudflared_token: "dummy"
+
+# project: obs
+o11y_cloudflared_token: "dummy"
+o11y_prom_client_secret_token: "dummy"
+o11y_alertmanager_username: "dummy"
+o11y_alertmanager_password: "dummy"
+
+o11y_exporter_cloudflare_cf_accounts: "dummy"
+o11y_exporter_cloudflare_cf_api_token: "dummy"
+
+# project: kuma (obs)
+kuma_cloudflared_token: "dummy"
+
+# project: rpx
+rpx_cloudflared_token: "dummy"
+rpx_client_secret_token: "dummy"
+
+# project: mc
+mc_version: "dummy"
+mc_type: "dummy"
+mc_hardcore_enabled: false
+mc_plugins_list: "dummy"
+mc_mods_list: "dummy"
+mc_join_fqdn: "dummy"
+mc_dynmap_fqdn: "dummy"
+mc_discordsrv_bot_token_id: "dummy"
+mc_discordsrv_channel_broadcast_id: "dummy"
+mc_discordsrv_channel_console_id: "dummy"
+mc_cloudflared_token: "dummy"
+
+# project: pal
+pal_join_fqdn: "dummy"
+pal_server_password: "dummy"
+pal_admin_password: "dummy"
+pal_discord_webhook_url: "dummy"
