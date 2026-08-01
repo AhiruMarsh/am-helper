@@ -44,3 +44,9 @@ mc_discordsrv_bot_token_id: string
 mc_discordsrv_channel_broadcast_id: string
 mc_discordsrv_channel_console_id: string
 mc_cloudflared_token: string
+
+# project: pal
+pal_join_fqdn: string
+pal_server_password: string
+pal_admin_password: string
+pal_discord_webhook_url: string
