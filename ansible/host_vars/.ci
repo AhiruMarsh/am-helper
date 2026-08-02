@@ -24,8 +24,9 @@ rpx_client_secret_token: "dummy"
 mc_version: "dummy"
 mc_type: "dummy"
 mc_hardcore_enabled: false
-mc_plugins_list: "dummy"
-mc_mods_list: "dummy"
+mc_plugins_list: ["dummy"]
+mc_mods_list: ["dummy"]
+mc_spiget_resources: [9999]
 mc_join_fqdn: "dummy"
 mc_dynmap_fqdn: "dummy"
 mc_discordsrv_bot_token_id: "dummy"
