@@ -7,6 +7,7 @@ cloudflared_token: "dummy"
 # project: obs
 o11y_cloudflared_token: "dummy"
 o11y_prom_client_secret_token: "dummy"
+o11y_prom_kuma_api_key: "dummy"
 o11y_alertmanager_username: "dummy"
 o11y_alertmanager_password: "dummy"
 
