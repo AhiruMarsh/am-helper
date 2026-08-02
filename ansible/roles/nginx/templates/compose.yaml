@@ -20,7 +20,7 @@ services:
     network_mode: host
     restart: always
     depends_on:
-      - apps
+      - app
 
   cloudflared:
     image: cloudflare/cloudflared:2026.7.3
