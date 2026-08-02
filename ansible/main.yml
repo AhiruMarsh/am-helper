@@ -2,6 +2,7 @@
 - name: Main
   hosts: localhost
   roles:
+    # System / Common
     - role: system
       tags: system
     - role: unique-oci
@@ -9,12 +10,12 @@
       when: (platform_name is defined) and (platform_name == "oci")
     - role: common-apps
       tags: common-apps
-    - role: ops
-      tags: ops
 
+    # Apps
     - role: o11y
       tags: o11y
-      when: (o11y_prom_client_secret_token is defined) and (o11y_prom_kuma_api_key is
+      when:
+        (o11y_prom_client_secret_token is defined) and (o11y_prom_kuma_api_key is
         defined) and (o11y_cloudflared_token is defined) and
         (o11y_alertmanager_username is defined) and (o11y_alertmanager_password
         is defined)
@@ -30,5 +31,10 @@
       when: mc_version is defined
     - role: palworld
       tags: palworld
-      when: (pal_join_fqdn is defined) and (pal_discord_webhook_url is defined) and
+      when:
+        (pal_join_fqdn is defined) and (pal_discord_webhook_url is defined) and
         (pal_server_password is defined) and (pal_admin_password is defined)
+
+    # Ops
+    - role: ops
+      tags: ops
