@@ -40,6 +40,7 @@
     owner: "am-helper"
     group: "am-helper"
     mode: "0644"
+    validate: "{{ 'docker compose -f %s config --quiet' if item.path in ['compose.yml', 'compose.yaml'] else omit }}"
   register: minecraft_set_game_config
   with_community.general.filetree: "templates/"
   when: item.state == "file"
