@@ -1,4 +1,5 @@
 "/opt/a-marsh/nginx/data/log/*.log" {
+  missingok
   notifempty
   nocopytruncate
   sharedscripts
