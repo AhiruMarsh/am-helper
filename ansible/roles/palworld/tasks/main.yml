@@ -22,6 +22,7 @@
     owner: "am-helper"
     group: "am-helper"
     mode: "0644"
+    validate: "docker compose -f %s config --quiet"
   register: palworld_set_game_config
 
 - name: Palworld - Create systemd service

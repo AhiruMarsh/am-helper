@@ -15,6 +15,7 @@
     owner: "am-helper"
     group: "am-helper"
     mode: "0644"
+    validate: "docker compose -f %s config --quiet"
   register: set_docker_config
 
 - name: Prom-node-exporter - Create systemd service
