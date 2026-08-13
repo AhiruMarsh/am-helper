@@ -1,0 +1,61 @@
+name: Bash CI (Test)
+
+on:
+  pull_request:
+    branches:
+      - develop
+      - main
+    paths:
+      - "**.sh"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  DEVCONTAINER_IMAGE_NAME: ghcr.io/${{ github.repository }}/devcontainer
+
+jobs:
+  am-helper:
+    name: "Test run am-helper.sh"
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      packages: read
+
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: ${{ inputs.fetch-depth }}
+
+      - name: Convert image name (lowercase)
+        run: echo "DEVCONTAINER_IMAGE_NAME=${DEVCONTAINER_IMAGE_NAME,,}" >> $GITHUB_ENV
+
+      - name: Set image tag
+        id: set_image_tag
+        env:
+          TARGET_BRANCH: ${{ github.base_ref }}
+        run: echo "devcontainer_image_tag=$(echo "${TARGET_BRANCH}" | sed 's/[^a-zA-Z0-9._-]/-/g')" >> $GITHUB_OUTPUT
+
+      - name: Create host_vars for localhost
+        run: cp -p ansible/host_vars/.ci ansible/host_vars/localhost
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Run in devcontainer
+        id: run-devcontainer
+        continue-on-error: true
+        uses: devcontainers/ci@v0.3
+        env:
+          BASE_BRANCH: ${{ github.base_ref }}
+        with:
+          cacheFrom: ${{ env.DEVCONTAINER_IMAGE_NAME }}
+          imageTag: ${{ steps.set_image_tag.outputs.devcontainer_image_tag }}
+          push: never
+          runCmd: bash am-helper.sh
