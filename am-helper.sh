@@ -19,7 +19,7 @@ function main() {
   else
     # Sync git remote branch
     info "Updating..."
-    git pull origin main || abort "Failed to update."
+    git reset --hard origin/main || abort "Failed to update."
 
     # Run ansible
     info "Running ansible playbook..."
