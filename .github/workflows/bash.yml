@@ -1,4 +1,4 @@
-name: Bash CI (Test)
+name: Bash CI
 
 on:
   pull_request:
@@ -16,8 +16,21 @@ env:
   DEVCONTAINER_IMAGE_NAME: ghcr.io/${{ github.repository }}/devcontainer
 
 jobs:
+  shellcheck:
+    name: "Check shellcheck"
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Run ShellCheck
+        uses: ludeeus/action-shellcheck@2.0.0
+
   am-helper:
-    name: "Test run am-helper.sh"
+    name: "Test am-helper.sh"
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
@@ -58,4 +71,4 @@ jobs:
           cacheFrom: ${{ env.DEVCONTAINER_IMAGE_NAME }}
           imageTag: ${{ steps.set_image_tag.outputs.devcontainer_image_tag }}
           push: never
-          runCmd: bash am-helper.sh
+          runCmd: set -o pipefail; bash am-helper.sh
