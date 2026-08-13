@@ -3,11 +3,11 @@
 set -euo pipefail
 
 function info() {
-  echo "am-helper: $@"
+  echo "am-helper: $*"
 }
 
 function abort() {
-  echo "[FATAL] am-helper: $@" 1>&2
+  echo "[FATAL] am-helper: $*" 1>&2
   exit 1
 }
 
