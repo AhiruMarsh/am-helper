@@ -1,6 +1,6 @@
 #!/bin/bash
 # am-helper.sh: If update am-helper, run ansible to localhost.
-set -e
+set -euo pipefail
 
 function info() {
   echo "am-helper: $@"
@@ -11,20 +11,22 @@ function abort() {
   exit 1
 }
 
-# Check changes
-git fetch --quiet origin main
-if git diff --quiet HEAD..origin/main; then
+function main() {
+  # Check changes
+  git fetch --quiet origin main
+  if git diff --quiet HEAD..origin/main; then
     info "No Updates."
-else
+  else
     # Sync git remote branch
-    info "Update..."
+    info "Updating..."
     git pull origin main || abort "Failed to update."
 
     # Run ansible
-    info "Run ansible..."
-    cd ansible && ansible-playbook main.yml || abort "Failed to run ansible."
+    info "Running ansible playbook..."
+    ansible-playbook ansible/main.yml -i localhost, --connection=local --become --diff || abort "Failed to run ansible playbook."
 
     info "OK"
-fi
+  fi
+}
 
-exit 0
+main "$@"
