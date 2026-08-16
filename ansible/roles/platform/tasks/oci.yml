@@ -1,0 +1,20 @@
+---
+- name: OCI - Install iptables
+  ansible.builtin.apt:
+    name:
+      - iptables-persistent
+      - netfilter-persistent
+    state: present
+  become: true
+  when: ansible_facts['distribution'] == "Ubuntu"
+
+- name: OCI - Set iptables rules
+  ansible.builtin.template:
+    src: oci/rules.v4.j2
+    dest: /etc/iptables/rules.v4
+    owner: root
+    group: root
+    mode: "0640"
+  become: true
+  notify:
+    - "OCI - Apply iptables rules"

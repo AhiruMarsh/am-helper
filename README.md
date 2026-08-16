@@ -30,7 +30,7 @@ am-helper.timer (1分間隔)
     │   └── .example          # 変数定義のサンプル
     └── roles/
         ├── system/           # 基本システム設定
-        ├── unique-oci/       # OCI固有設定 (iptables)
+        ├── platform/         # プラットフォーム固有設定 (OCI: iptables / Kagoya: netplan)
         ├── common-apps/      # 共通アプリケーション
         ├── o11y/             # 可観測性 (Prometheus / Alertmanager)
         ├── uptime-kuma/      # 死活監視 (Uptime Kuma)
@@ -48,7 +48,7 @@ am-helper.timer (1分間隔)
 | 区分 | ロール | 内容 | 適用条件 |
 |---|---|---|---|
 | System / Common | `system` | hostname / timezone / sshd / sudo / users / apt | 常時 |
-| System / Common | `unique-oci` | OCI向けiptablesルール | `platform_name == "oci"` |
+| System / Common | `platform` | プラットフォーム固有設定 (OCI: iptablesルール / Kagoya: netplan静的IP) | `platform_name == "oci"` または `"kagoya"` |
 | System / Common | `common-apps` | cloudflared / cockpit / docker / prom-node-exporter | 常時 |
 | Apps | `o11y` | Prometheus + Alertmanager + Cloudflare Exporter | 各種トークン定義時 |
 | Apps | `uptime-kuma` | Uptime Kuma (死活監視) | `kuma_cloudflared_token` 定義時 |
@@ -76,7 +76,7 @@ git clone https://github.com/AhiruMarsh/am-helper
 ```yaml
 # 必須
 hostname: your-hostname
-platform_name: oci  # or other
+platform_name: oci  # oci / kagoya / other
 
 # オプション (有効にしたいロールに応じて追加)
 mc_version: "1.21.4"

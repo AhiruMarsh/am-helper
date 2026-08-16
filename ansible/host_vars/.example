@@ -30,8 +30,12 @@ kuma_cloudflared_token: string
 rpx_cloudflared_token: string
 rpx_client_secret_token: string
 
+# project: platform (oci)
 oci_iptables_tcp_port_list: list<int>
 oci_iptables_udp_port_list: list<int>
+
+# project: platform (kagoya)
+kagoya_netplan_addresses: list<string>
 
 # project: mc
 mc_version: string

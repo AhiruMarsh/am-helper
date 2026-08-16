@@ -1,0 +1,9 @@
+---
+# OCI - TCP ports to allow for new connections (state NEW)
+oci_iptables_tcp_port_list: []
+
+# OCI - UDP ports to allow
+oci_iptables_udp_port_list: []
+
+# Kagoya - static addresses (CIDR notation) to assign to the interface
+kagoya_netplan_addresses: []
