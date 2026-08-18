@@ -21,7 +21,7 @@ services:
     restart: always
 
   cloudflared:
-    image: cloudflare/cloudflared:2026.7.3
+    image: cloudflare/cloudflared:2026.8.2
     volumes:
       - /etc/timezone:/etc/timezone:ro
     command: tunnel run --token "{{ o11y_cloudflared_token }}"
