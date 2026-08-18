@@ -12,7 +12,7 @@ services:
     restart: always
 
   exporter:
-    image: nginx/nginx-prometheus-exporter:1.5.1
+    image: nginx/nginx-prometheus-exporter:1.5.3
     command:
       - --nginx.scrape-uri=http://localhost:8080/stub_status
     volumes:
