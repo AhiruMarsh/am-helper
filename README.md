@@ -10,7 +10,7 @@ am-helper.timer (1分間隔)
   └─ am-helper.service
        └─ am-helper.sh
             ├─ git fetch origin main
-            ├─ 差分あり → git pull
+            ├─ 差分あり → git reset --hard origin/main
             └─ ansible-playbook ansible/main.yml
 ```
 
@@ -98,6 +98,8 @@ GitHub Actions による自動化が設定されています。
 | `pull_request` → develop / main | `Ansible CI (Check)` / `check-lint` | `ansible-lint` による静的解析 |
 | `pull_request` → develop / main | `Ansible CI (Check)` / `check-syntax` | `ansible-playbook --syntax-check` による構文チェック |
 | `pull_request` → develop / main | `Ansible CI (Check)` / `check-plan` | ベースブランチ適用後に PR ブランチを `--diff` 実行し、変更内容をプランとして出力 |
+| `pull_request` → develop / main (`**.sh` 変更時) | `Bash CI` / `shellcheck` | ShellCheck による静的解析 |
+| `pull_request` → develop / main (`**.sh` 変更時) | `Bash CI` / `am-helper` | devcontainer 内で `am-helper.sh` を実行し、動作確認 |
 | `push` → develop / main | `Ansible CI (Test)` / `deploy` | devcontainer 内で Playbook を実行し、イメージを GHCR へプッシュ |
 
 各チェックの実行結果は共通ワークフロー `_ansible-run-output.yml` を経由して PR コメントに投稿されます。
