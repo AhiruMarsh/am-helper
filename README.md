@@ -48,7 +48,7 @@ am-helper.timer (1分間隔)
 | 区分 | ロール | 内容 | 適用条件 |
 |---|---|---|---|
 | System / Common | `system` | hostname / timezone / sshd / sudo / users / apt | 常時 |
-| System / Common | `platform` | プラットフォーム固有設定 (OCI: iptablesルール / Kagoya: netplan静的IP) | `platform_name == "oci"` または `"kagoya"` |
+| System / Common | `platform` | プラットフォーム固有設定 | `platform_name` 定義時 |
 | System / Common | `common-apps` | cloudflared / cockpit / docker / prom-node-exporter | 常時 |
 | Apps | `o11y` | Prometheus + Alertmanager + Cloudflare Exporter | 各種トークン定義時 |
 | Apps | `uptime-kuma` | Uptime Kuma (死活監視) | `kuma_cloudflared_token` 定義時 |
@@ -56,9 +56,6 @@ am-helper.timer (1分間隔)
 | Apps | `minecraft` | Minecraft サーバー (Paper + 各種プラグイン) | `mc_version` 定義時 |
 | Apps | `palworld` | Palworld サーバー | `pal_join_fqdn` 等定義時 |
 | Ops | `ops` | docker設定 / logrotate | 常時 |
-
-> `palworld` ロールのデフォルト値 (`defaults/main.yml`) は廃止されました。  
-> `pal_join_fqdn` / `pal_discord_webhook_url` / `pal_server_password` / `pal_admin_password` は host_vars で明示的に定義する必要があります。
 
 ## セットアップ
 
