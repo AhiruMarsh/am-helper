@@ -1,0 +1,6 @@
+---
+- name: Platform - OCI
+  ansible.builtin.import_tasks: oci.yml
+
+- name: Platform - Kagoya
+  ansible.builtin.import_tasks: kagoya.yml

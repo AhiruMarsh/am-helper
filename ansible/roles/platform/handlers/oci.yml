@@ -1,13 +1,13 @@
 ---
-- name: Unique-oci - Apply iptables rules
+- name: OCI - Apply iptables rules
   ansible.builtin.command: iptables-restore /etc/iptables/rules.v4
   become: true
-  register: apply_iptables
+  register: platform_oci_apply_iptables
   changed_when: true
-  failed_when: apply_iptables.rc != 0
-  notify: "Unique-oci - Restart Docker"
+  failed_when: platform_oci_apply_iptables.rc != 0
+  notify: "OCI - Restart Docker"
 
-- name: Unique-oci - Restart Docker
+- name: OCI - Restart Docker
   ansible.builtin.systemd:
     name: docker
     state: restarted

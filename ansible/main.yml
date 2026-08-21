@@ -5,9 +5,9 @@
     # System / Common
     - role: system
       tags: system
-    - role: unique-oci
-      tags: unique-oci
-      when: (platform_name is defined) and (platform_name == "oci")
+    - role: platform
+      tags: platform
+      when: platform_name is defined
     - role: common-apps
       tags: common-apps
 
