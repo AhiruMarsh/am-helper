@@ -2,6 +2,6 @@
 - name: Kagoya - Apply netplan
   ansible.builtin.command: netplan apply
   become: true
-  register: apply_netplan
+  register: platform_kagoya_apply_netplan
   changed_when: true
-  failed_when: apply_netplan.rc != 0
+  failed_when: platform_kagoya_apply_netplan.rc != 0

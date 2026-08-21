@@ -1,6 +1,6 @@
 network:
+  version: 2
   ethernets:
     eth1:
-      addresses: [{{ kagoya_netplan_addresses | join(', ') }}]
+      addresses: [{{ platform_kagoya_netplan_addresses | join(', ') }}]
       dhcp4: false
-  version: 2

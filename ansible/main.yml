@@ -7,7 +7,7 @@
       tags: system
     - role: platform
       tags: platform
-      when: (platform_name is defined) and (platform_name in ["oci", "kagoya"])
+      when: platform_name is defined
     - role: common-apps
       tags: common-apps
 

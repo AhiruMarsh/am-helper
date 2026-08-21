@@ -10,6 +10,13 @@ users:
     password: hashed string
     groups: string
 
+# platform: oci
+platform_oci_iptables_tcp_port_list: list<int>
+platform_oci_iptables_udp_port_list: list<int>
+
+# platform: kagoya
+platform_kagoya_netplan_addresses: list<string>
+
 # common-apps (prom-node-exporter)
 cloudflared_token: string
 
@@ -29,13 +36,6 @@ kuma_cloudflared_token: string
 # project: rpx
 rpx_cloudflared_token: string
 rpx_client_secret_token: string
-
-# project: platform (oci)
-oci_iptables_tcp_port_list: list<int>
-oci_iptables_udp_port_list: list<int>
-
-# project: platform (kagoya)
-kagoya_netplan_addresses: list<string>
 
 # project: mc
 mc_version: string
