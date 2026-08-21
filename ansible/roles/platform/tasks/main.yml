@@ -1,0 +1,8 @@
+---
+- name: Platform - OCI
+  ansible.builtin.import_tasks: oci.yml
+  when: platform_name == "oci"
+
+- name: Platform - Kagoya
+  ansible.builtin.import_tasks: kagoya.yml
+  when: platform_name == "kagoya"

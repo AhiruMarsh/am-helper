@@ -1,0 +1,11 @@
+---
+- name: Kagoya - Set static local network config
+  ansible.builtin.template:
+    src: kagoya/11-localnetwork.yaml.j2
+    dest: /etc/netplan/11-localnetwork.yaml
+    owner: root
+    group: root
+    mode: "0600"
+  become: true
+  notify:
+    - "Kagoya - Apply netplan"
