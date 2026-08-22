@@ -7,7 +7,7 @@ Wants=network-online.target remote-fs.target
 [Service]
 Type=oneshot
 WorkingDirectory=/opt/a-marsh/am-helper
-ExecStart=/bin/bash am-helper.sh
+ExecStart=/bin/bash am-helper.sh --target "main"
 
 [Install]
 WantedBy=multi-user.target
