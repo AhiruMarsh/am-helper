@@ -7,12 +7,17 @@
     group: "root"
     mode: "0644"
 
-- name: Am-helper - Reload systemd service
+- name: Am-helper - Reload systemd daemon
   ansible.builtin.systemd:
-    name: "{{ item }}"
     daemon_reload: true
-    state: restarted
+
+- name: Am-helper - Enable am-helper service
+  ansible.builtin.systemd:
+    name: "am-helper.service"
     enabled: true
-  with_items:
-    - "am-helper.service"
-    - "am-helper.timer"
+
+- name: Am-helper - Enable and start am-helper timer
+  ansible.builtin.systemd:
+    name: "am-helper.timer"
+    enabled: true
+    state: started
