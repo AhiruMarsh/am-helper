@@ -33,4 +33,7 @@
   with_items:
     - "am-helper.service"
     - "am-helper.timer"
-  notify: "Am-helper - Reload systemd service"
+  notify:
+    - "Am-helper - Reload systemd daemon"
+    - "Am-helper - Enable am-helper service"
+    - "Am-helper - Enable and start am-helper timer"
