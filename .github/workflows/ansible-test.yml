@@ -6,6 +6,11 @@ on:
     branches:
       - develop
       - main
+    paths:
+      - ".github/workflows/ansible-test.yml"
+      - "ansible/host_vars/.ci"
+      - "ansible/roles/**"
+      - "ansible/main.yml"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}

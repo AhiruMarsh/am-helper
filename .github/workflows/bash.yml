@@ -7,6 +7,7 @@ on:
       - main
     paths:
       - "**.sh"
+      - ".github/workflows/bash.yml"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
