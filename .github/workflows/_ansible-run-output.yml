@@ -93,7 +93,7 @@ jobs:
             const hash_url = `https://github.com/${context.repo.owner}/${context.repo.repo}/commit/${hash}`;
             const body = [
               `## ${heading} — ${status}`,
-              `Latest Commit: [\`${hash}\`](${hash_url})`,
+              `Latest Commit: [\`${hash.slice(0, 7)}\`](${hash_url})`,
               '',
               '<details>',
               `<summary>View output</summary>`,
