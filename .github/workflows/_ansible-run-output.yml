@@ -88,7 +88,8 @@ jobs:
               : output;
 
             const heading = '${{ inputs.comment-heading }}';
-            const hash = context.sha;
+            // On pull_request events context.sha is the temporary merge commit, not the PR head.
+            const hash = context.payload.pull_request?.head.sha ?? context.sha;
             const hash_url = `https://github.com/${context.repo.owner}/${context.repo.repo}/commit/${hash}`;
             const body = [
               `## ${heading} — ${status}`,
