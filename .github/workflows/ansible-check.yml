@@ -7,6 +7,7 @@ on:
       - main
     paths:
       - ".github/workflows/ansible-check.yml"
+      - ".github/workflows/_ansible-run-output.yml"
       - "ansible/host_vars/.ci"
       - "ansible/roles/**"
       - "ansible/main.yml"
